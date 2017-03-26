@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{57D3800A-183B-4223-BD02-00F95A5554EF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Helpful.TextParser</RootNamespace>
+    <AssemblyName>Helpful.TextParser</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Fluent\Impl\Delimited\DelimitedDescriptor.cs" />
+    <Compile Include="Fluent\Impl\Delimited\WithChildren\DelimitedWithChildrenTagDescriptor.cs" />
+    <Compile Include="Fluent\Impl\Delimited\WithChildren\DelimitedWithChildrenMapToDescriptor.cs" />
+    <Compile Include="Fluent\Impl\Delimited\WithChildren\DelimitedWithChildrenPropertiesDescriptor.cs" />
+    <Compile Include="Fluent\Impl\Delimited\WithChildren\DelimitedWithChildrenPropertyDescriptor.cs" />
+    <Compile Include="Fluent\Impl\Delimited\WithoutChildren\DelimitedWithChildrenPropertyWithoutChildrenPositionDescriptor.cs" />
+    <Compile Include="Fluent\Impl\Delimited\WithChildren\DelimitedWithChildrenPropertyWithChildrenTagDescriptor.cs" />
+    <Compile Include="Fluent\Impl\Delimited\WithChildren\DelimitedWithChildrenPropertyWithChildrenDescriptor.cs" />
+    <Compile Include="Fluent\Impl\Delimited\WithoutChildren\DelimitedWithoutChildrenMapToDescriptor.cs" />
+    <Compile Include="Fluent\Impl\Delimited\WithoutChildren\DelimitedWithoutChildrenPropertiesDescriptor.cs" />
+    <Compile Include="Fluent\Impl\Delimited\WithoutChildren\DelimitedWithoutChildrenPropertyDescriptor.cs" />
+    <Compile Include="Fluent\Impl\Delimited\WithoutChildren\DelimitedWithoutChildrenPropertyPositionDescriptor.cs" />
+    <Compile Include="Fluent\Interface\Delimited\IDelimitedDescriptor.cs" />
+    <Compile Include="Fluent\Interface\Delimited\IDelimitedParseDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithoutChildrenPropertyDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithoutChildrenPropertyEndPositionDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithoutChildrenPropertyStartPositionDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithoutChildrenPropertyRequiredDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithoutChildrenPropertyWithChildrenDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertyDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertyMapToDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertyPositionDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertyRequiredDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertyStartPositionDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertyTagEndPositionDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertyTagStartPositionDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertyWithChildrenDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertyWithChildrenMapToDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertyWithChildrenTagDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertiesDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithoutChildrenPropertiesDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithChildrenMapToDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithChildrenTagEndPositionDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithChildrenTagStartPositionDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithChildrenDescriptor.cs" />
+    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenPropertyMapToDescriptor.cs" />
+    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenMapToDescriptor.cs" />
+    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenPropertyWithChildrenTagPositionDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionWithoutChildrenMapToDescriptor.cs" />
+    <Compile Include="Fluent\Interface\Delimited\WithoutChildren\IDelimitedWithoutChildrenPropertyRequiredDescriptor.cs" />
+    <Compile Include="Fluent\Interface\Delimited\WithoutChildren\IDelimitedWithoutChildrenPropertyPositionDescriptor.cs" />
+    <Compile Include="Fluent\Interface\Delimited\WithoutChildren\IDelimitedWithoutChildrenPropertyDescriptor.cs" />
+    <Compile Include="Fluent\Interface\Delimited\WithoutChildren\IDelimitedWithoutChildrenPropertiesDescriptor.cs" />
+    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenPropertiesDescriptor.cs" />
+    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenPropertyDescriptor.cs" />
+    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenPropertyWithoutChildrenPositionDescriptor.cs" />
+    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenPropertyWithoutChildrenRequiredDescriptor.cs" />
+    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenPropertyWithChildrenDescriptor.cs" />
+    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenPropertyWithChildrenTagDescriptor.cs" />
+    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenTagDescriptor.cs" />
+    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenTagPositionDescriptor.cs" />
+    <Compile Include="Fluent\Interface\Delimited\WithoutChildren\IDelimitedWithoutChildrenMapToDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionDescriptor.cs" />
+    <Compile Include="Impl\DelimitedParser.cs" />
+    <Compile Include="Impl\FluentParser.cs" />
+    <Compile Include="Interface\IFluentParser.cs" />
+    <Compile Include="Interface\IParser.cs" />
+    <Compile Include="Model\DelimitedElement.cs" />
+    <Compile Include="Model\Element.cs" />
+    <Compile Include="Model\ElementType.cs" />
+    <Compile Include="Model\Result.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

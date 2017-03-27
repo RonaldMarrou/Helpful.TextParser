@@ -4,6 +4,6 @@ namespace Helpful.TextParser.Interface
 {
     public interface IParser
     {
-        void Parse<T>(DelimitedElement element, string[] lines);
+        void Parse<T>(Element element, string[] lines);
     }
 }

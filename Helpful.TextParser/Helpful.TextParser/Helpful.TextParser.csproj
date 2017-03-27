@@ -93,14 +93,21 @@
     <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenTagPositionDescriptor.cs" />
     <Compile Include="Fluent\Interface\Delimited\WithoutChildren\IDelimitedWithoutChildrenMapToDescriptor.cs" />
     <Compile Include="Fluent\Interface\IPositionDescriptor.cs" />
-    <Compile Include="Impl\DelimitedParser.cs" />
+    <Compile Include="Impl\LineValueExtractor\DelimitedLineValueExtractor.cs" />
+    <Compile Include="Impl\Parser.cs" />
     <Compile Include="Impl\FluentParser.cs" />
+    <Compile Include="Impl\LineValueExtractor\LineValueExtractorFactory.cs" />
+    <Compile Include="Impl\LineValueExtractor\PositionedLineValueExtractor.cs" />
     <Compile Include="Interface\IFluentParser.cs" />
+    <Compile Include="Interface\ILineValueExtractorFactory.cs" />
     <Compile Include="Interface\IParser.cs" />
+    <Compile Include="Interface\ILineValueExtractor.cs" />
     <Compile Include="Model\DelimitedElement.cs" />
     <Compile Include="Model\Element.cs" />
     <Compile Include="Model\ElementType.cs" />
+    <Compile Include="Model\LineValueExtractorType.cs" />
     <Compile Include="Model\Result.cs" />
+    <Compile Include="Model\LineValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

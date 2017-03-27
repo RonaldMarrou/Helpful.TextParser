@@ -58,7 +58,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Parser\DelimitedParserTest.cs" />
+    <Compile Include="LineValueExtractor\DelimitedLineValueExtractorTest.cs" />
+    <Compile Include="LineValueExtractor\PositionedLineValueExtractorTest.cs" />
+    <Compile Include="Parser\ParserTest.cs" />
     <Compile Include="Parser\ParserTestResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -15,7 +15,7 @@ namespace Helpful.TextParser.Test.Parser
         {
             var lineValueExtractorFactory = new LineValueExtractorFactory(new ILineValueExtractor[] {new DelimitedLineValueExtractor()});
 
-            var sut = new Impl.Parser(lineValueExtractorFactory);
+            var sut = new Impl.Parser(lineValueExtractorFactory, new Impl.ValueSetter());
 
             var delimitedElement = new DelimitedElement()
             {
@@ -117,7 +117,7 @@ namespace Helpful.TextParser.Test.Parser
         {
             var lineValueExtractorFactory = new LineValueExtractorFactory(new ILineValueExtractor[] { new DelimitedLineValueExtractor() });
 
-            var sut = new Impl.Parser(lineValueExtractorFactory);
+            var sut = new Impl.Parser(lineValueExtractorFactory, new Impl.ValueSetter());
 
             var delimitedElement = new Element()
             {

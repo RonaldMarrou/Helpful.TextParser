@@ -98,10 +98,12 @@
     <Compile Include="Impl\FluentParser.cs" />
     <Compile Include="Impl\LineValueExtractor\LineValueExtractorFactory.cs" />
     <Compile Include="Impl\LineValueExtractor\PositionedLineValueExtractor.cs" />
+    <Compile Include="Impl\ValueSetter.cs" />
     <Compile Include="Interface\IFluentParser.cs" />
     <Compile Include="Interface\ILineValueExtractorFactory.cs" />
     <Compile Include="Interface\IParser.cs" />
     <Compile Include="Interface\ILineValueExtractor.cs" />
+    <Compile Include="Interface\IValueSetter.cs" />
     <Compile Include="Model\DelimitedElement.cs" />
     <Compile Include="Model\Element.cs" />
     <Compile Include="Model\ElementType.cs" />

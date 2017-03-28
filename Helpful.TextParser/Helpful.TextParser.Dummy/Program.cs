@@ -7,22 +7,22 @@ namespace Helpful.TextParser.Dummy
     {
         static void Main(string[] args)
         {
-            var parserDelimitedWithTag = new FluentParser();
+            //var parserDelimitedWithTag = new FluentParser();
 
-            parserDelimitedWithTag.Delimited(",").WithChildren().Tag("HEADER").Position(0).MapTo<PurchaseOrder>()
-                .Properties(properties =>
-                {
-                    properties.Property(x => x.Number).WithoutChildren().Position(1).Required();
-                    properties.Property(x => x.Supplier).WithoutChildren().Position(2).Required();
+            //parserDelimitedWithTag.Delimited(",").WithChildren().Tag("HEADER").Position(0).MapTo<PurchaseOrder>()
+            //    .Properties(properties =>
+            //    {
+            //        properties.Property(x => x.Number).WithoutChildren().Position(1).Required();
+            //        properties.Property(x => x.Supplier).WithoutChildren().Position(2).Required();
 
-                    properties.Property(x => x.Details).WithChildren().Tag("DETAIL").Position(0).MapTo<Detail>()
-                    .Properties(childProperties =>
-                    {
-                        childProperties.Property(x => x.ItemCode).WithoutChildren().Position(1).Required();
-                        childProperties.Property(x => x.Description).WithoutChildren().Position(2).Required();
-                    });
-                })
-                .Parse();
+            //        properties.Property(x => x.Details).WithChildren().Tag("DETAIL").Position(0).MapTo<Detail>()
+            //        .Properties(childProperties =>
+            //        {
+            //            childProperties.Property(x => x.ItemCode).WithoutChildren().Position(1).Required();
+            //            childProperties.Property(x => x.Description).WithoutChildren().Position(2).Required();
+            //        });
+            //    })
+            //    .Parse();
 
             //var parserPositionWithTag = new Parser();
 

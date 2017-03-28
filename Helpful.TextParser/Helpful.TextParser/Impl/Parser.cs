@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Helpful.TextParser.Interface;
@@ -10,19 +9,21 @@ namespace Helpful.TextParser.Impl
     public class Parser : IParser
     {
         private readonly ILineValueExtractorFactory _lineValueExtractorFactory;
+        private readonly IValueSetter _valueSetter;
 
-        public Parser(ILineValueExtractorFactory lineValueExtractorFactory)
+        public Parser(ILineValueExtractorFactory lineValueExtractorFactory, IValueSetter valueSetter)
         {
             _lineValueExtractorFactory = lineValueExtractorFactory;
+            _valueSetter = valueSetter;
         }
 
         public void Parse<T>(Element element, string[] lines)
         {
             var result = new Result<T>();
 
-            if (string.IsNullOrEmpty(element.Tag))
+            if (element.ElementType == ElementType.PropertyCollection)
             {
-                ParseWithoutTag(element, lines);
+                ParseWithoutTag<T>(element, result, lines);
             }
             else
             {
@@ -34,13 +35,17 @@ namespace Helpful.TextParser.Impl
         {
             var lineValueExtractor = _lineValueExtractorFactory.Get(element.LineValueExtractorType);
 
+            var continueParsing = true;
+
             for (var i = linePosition; i < lines.Length; i++)
             {
                 var tagValue = lineValueExtractor.Extract(lines[i], element);
 
                 if (!tagValue.IsFound || string.IsNullOrEmpty(tagValue.Value))
                 {
-                    //TODO: Returns Error: Tag not found
+                    result.Errors.Add($"Line {i} does not contain any valid tag.");
+
+                    return;
                 }
 
                 if (!tagValue.Value.Equals(element.Tag))
@@ -52,23 +57,19 @@ namespace Helpful.TextParser.Impl
 
                     if (tagElement != null)
                     {
-                        var propertyInfo = typeof(T).GetProperty(tagElement.Name);
+                        ParseWithTag(element, tagElement, result.Content.Last(), result, lines, lineValueExtractor, ref i, ref continueParsing);
 
-                        if (propertyInfo.PropertyType.IsGenericType && propertyInfo.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
+                        if (!continueParsing)
                         {
-                            ParseChildrenWithTag(element, tagElement, result.Content.Last(), result, lines, lineValueExtractor, ref i);
-
-                            continue;
+                            return;
                         }
 
-                        result.Errors.Add($"Property {tagElement.Name} is not typed as List.");
+                        continue;
+                    }
 
-                        return;
-                    }
-                    else
-                    {
-                        //TODO: Returns Error: Tag is not List
-                    }
+                    result.Errors.Add($"Line {i} does not contain any valid tag.");
+
+                    return;
                 }
 
                 var newObject = (T)Activator.CreateInstance(typeof(T));
@@ -83,17 +84,24 @@ namespace Helpful.TextParser.Impl
 
                     if (!propertyValue.IsFound || string.IsNullOrEmpty(propertyValue.Value) && propertyElement.Required)
                     {
-                        //TODO: Returns Error: Required Property Not Found
+                        result.Errors.Add($"Property {propertyElement.Name} is missing at Line {i}.");
                     }
+                    else
+                    {
+                        var propertyInfo = typeof(T).GetProperty(propertyElement.Name, BindingFlags.Public | BindingFlags.Instance);
 
-                    var propertyInfo = typeof(T).GetProperty(propertyElement.Name, BindingFlags.Public | BindingFlags.Instance);
+                        var isSet = _valueSetter.Set(propertyInfo, propertyValue.Value, newObject);
 
-                    propertyInfo.SetValue(newObject, Convert.ChangeType(propertyValue.Value, propertyInfo.PropertyType));
+                        if (!isSet)
+                        {
+                            result.Errors.Add($"Value of Property {propertyElement.Name} is not valid at Line {i}.");
+                        }
+                    }
                 }
             }
         }
 
-        private void ParseChildrenWithTag<T>(Element parentElement, Element element, object parentInstance, Result<T> result, string[] lines, ILineValueExtractor lineValueExtractor, ref int linePosition)
+        private void ParseWithTag<T>(Element parentElement, Element element, object parentInstance, Result<T> result, string[] lines, ILineValueExtractor lineValueExtractor, ref int linePosition, ref bool continueParsing)
         {
             for (var i = linePosition; i < lines.Length; i++)
             {
@@ -112,7 +120,11 @@ namespace Helpful.TextParser.Impl
 
                 if (!tagValue.IsFound || string.IsNullOrEmpty(tagValue.Value))
                 {
-                    //TODO: Returns Error: Tag not found
+                    result.Errors.Add($"Line {i} does not contain any valid tag.");
+
+                    continueParsing = false;
+
+                    return;
                 }
 
                 if (!tagValue.Value.Equals(element.Tag))
@@ -124,21 +136,14 @@ namespace Helpful.TextParser.Impl
 
                     if (tagElement != null)
                     {
-                        var propertyInfo = typeof(T).GetProperty(tagElement.Name);
+                        ParseWithTag(element, tagElement, result.Content.Last(), result, lines, lineValueExtractor, ref linePosition, ref continueParsing);
+                    }
 
-                        if (propertyInfo.PropertyType.IsGenericType && propertyInfo.PropertyType.GetGenericTypeDefinition() == typeof(IList<>))
-                        {
-                            ParseChildrenWithTag(element, tagElement, result.Content.Last(), result, lines, lineValueExtractor, ref linePosition);
-                        }
-                        else
-                        {
-                            //TODO: Returns Error: Tag is not List
-                        }
-                    }
-                    else
-                    {
-                        //TODO: Returns Error: Tag is not List
-                    }
+                    result.Errors.Add($"Line {i} does not contain any valid tag.");
+
+                    continueParsing = false;
+
+                    return;
                 }
 
                 var newObject = Activator.CreateInstance(element.Type);
@@ -160,21 +165,53 @@ namespace Helpful.TextParser.Impl
 
                     if (!propertyValue.IsFound || string.IsNullOrEmpty(propertyValue.Value) && propertyElement.Required)
                     {
-                        //TODO: Returns Error: Required Property Not Found
+                        result.Errors.Add($"Property {propertyElement.Name} is missing at Line {i}.");
                     }
 
                     var propertyInfo = element.Type.GetProperty(propertyElement.Name, BindingFlags.Public | BindingFlags.Instance);
 
-                    propertyInfo.SetValue(newObject, Convert.ChangeType(propertyValue.Value, propertyInfo.PropertyType));
+                    var isSet = _valueSetter.Set(propertyInfo, propertyValue.Value, newObject);
+
+                    if (!isSet)
+                    {
+                        result.Errors.Add($"Value of Property {propertyElement.Name} is not valid at Line {i}.");
+                    }
                 }
             }
         }
 
-        private void ParseWithoutTag(Element element, string[] lines)
+        private void ParseWithoutTag<T>(Element element, Result<T> result , string[] lines)
         {
-            foreach (var child in element.Elements)
-            {
+            var lineValueExtractor = _lineValueExtractorFactory.Get(element.LineValueExtractorType);
 
+            for (var i = 0; i < lines.Length; i++)
+            {
+                var newObject = (T)Activator.CreateInstance(typeof(T));
+
+                result.Content.Add(newObject);
+
+                var propertyElements = element.Elements.Where(child => child.ElementType == ElementType.Property).ToList();
+
+                foreach (var propertyElement in propertyElements)
+                {
+                    var propertyValue = lineValueExtractor.Extract(lines[i], propertyElement, element);
+
+                    if (!propertyValue.IsFound || string.IsNullOrEmpty(propertyValue.Value) && propertyElement.Required)
+                    {
+                        result.Errors.Add($"Property {propertyElement.Name} is missing at Line {i}.");
+                    }
+                    else
+                    {
+                        var propertyInfo = typeof(T).GetProperty(propertyElement.Name, BindingFlags.Public | BindingFlags.Instance);
+
+                        var isSet = _valueSetter.Set(propertyInfo, propertyValue.Value, newObject);
+
+                        if (!isSet)
+                        {
+                            result.Errors.Add($"Value of Property {propertyElement.Name} is not valid at Line {i}.");
+                        }
+                    }
+                }
             }
         }
     }

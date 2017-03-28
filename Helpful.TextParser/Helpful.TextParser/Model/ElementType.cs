@@ -4,6 +4,7 @@
     {
         None = 0,
         Tag = 1,
-        Property = 2
+        Property = 2,
+        PropertyCollection = 3
     }
 }

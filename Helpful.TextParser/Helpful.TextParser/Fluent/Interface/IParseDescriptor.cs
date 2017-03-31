@@ -7,6 +7,6 @@ namespace Helpful.TextParser.Fluent.Interface
     {
         Result<TClass> Parse(string[] content);
 
-        Result<TClass> Parse(Func<string, string[]> content);
+        Result<TClass> Parse(Func<string[]> content);
     }
 }

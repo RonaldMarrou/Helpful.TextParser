@@ -9,6 +9,7 @@ namespace Helpful.TextParser.Unity3.Installer
     {
         public static void InstallTextParser(this UnityContainer container)
         {
+            container.RegisterType<IFluentParser, FluentParser>(typeof(Parser).FullName, new ContainerControlledLifetimeManager());
             container.RegisterType<IParser, Parser>(typeof(Parser).FullName, new ContainerControlledLifetimeManager());
             container.RegisterType<ILineValueExtractor, DelimitedLineValueExtractor>(typeof(DelimitedLineValueExtractor).FullName, new ContainerControlledLifetimeManager());
             container.RegisterType<ILineValueExtractor, PositionedLineValueExtractor>(typeof(PositionedLineValueExtractor).FullName, new ContainerControlledLifetimeManager());

@@ -10,7 +10,7 @@ namespace Helpful.TextParser.Impl
             throw new NotImplementedException();
         }
 
-        public IPositionDescriptor Position()
+        public IPositionedDescriptor Positioned()
         {
             throw new NotImplementedException();
         }

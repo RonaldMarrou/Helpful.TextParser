@@ -6,6 +6,6 @@ namespace Helpful.TextParser.Interface
     {
         IDelimitedDescriptor Delimited(string delimitedBy);
 
-        IPositionDescriptor Position();
+        IPositionedDescriptor Positioned();
     }
 }

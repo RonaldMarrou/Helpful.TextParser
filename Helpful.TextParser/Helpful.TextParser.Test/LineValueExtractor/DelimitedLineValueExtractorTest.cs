@@ -16,7 +16,7 @@ namespace Helpful.TextParser.Test.LineValueExtractor
         {
             var element = new Element();
 
-            element.Positions.Add("Position", position);
+            element.Positions.Add("Positioned", position);
             element.Custom.Add("DelimitationString", delimitationString);
 
             var sut = new DelimitedLineValueExtractor();
@@ -36,7 +36,7 @@ namespace Helpful.TextParser.Test.LineValueExtractor
         {
             var element = new Element();
 
-            element.Positions.Add("Position", position);
+            element.Positions.Add("Positioned", position);
 
             var parentElement = new Element();
 

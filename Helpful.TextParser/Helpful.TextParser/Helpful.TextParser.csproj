@@ -50,6 +50,16 @@
     <Compile Include="Fluent\Interface\IDelimitedPropertyOnlyRequiredDescriptor.cs" />
     <Compile Include="Fluent\Interface\IDelimitedPropertyPositionDescriptor.cs" />
     <Compile Include="Fluent\Interface\IDelimitedPropertyRequiredDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionedPositionDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionedPropertiesDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionedPropertiesOnlyDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionedPropertyDescritor.cs" />
+    <Compile Include="Fluent\Interface\IPositionedPropertyMapToDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionedPropertyOnlyDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionedPropertyOnlyPositionDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionedPropertyOnlyRequiredDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionedPropertyPositionDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionedPropertyRequiredDescriptor.cs" />
     <Compile Include="Impl\LineValueExtractor\DelimitedLineValueExtractor.cs" />
     <Compile Include="Impl\Parser.cs" />
     <Compile Include="Impl\FluentParser.cs" />
@@ -61,7 +71,7 @@
     <Compile Include="Interface\ILineValueExtractorFactory.cs" />
     <Compile Include="Interface\IParser.cs" />
     <Compile Include="Interface\ILineValueExtractor.cs" />
-    <Compile Include="Fluent\Interface\IPositionDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IPositionedDescriptor.cs" />
     <Compile Include="Interface\IValueSetter.cs" />
     <Compile Include="Model\DelimitedElement.cs" />
     <Compile Include="Model\Element.cs" />

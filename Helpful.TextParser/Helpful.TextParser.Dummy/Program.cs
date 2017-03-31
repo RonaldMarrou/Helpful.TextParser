@@ -27,21 +27,25 @@ namespace Helpful.TextParser.Dummy
                 properties.Property(x => x.Supplier).Position(2).Required();
             });
 
-            //var parserPositionWithTag = new Parser();
+            var parserPositionWithTag = new FluentParser();
 
-            //parserPositionWithTag.Position().WithChildren().Tag("HEADER").StartPosition(0).EndPosition(2).MapTo<PurchaseOrder>()
-            //    .Properties(properties =>
-            //    {
-            //        properties.Property(x => x.Number).StartPosition(0).EndPosition(1).Required();
-            //        properties.Property(x => x.Supplier).StartPosition(1).EndPosition(2).Required();
+            parserPositionWithTag.Positioned().MapTo<PurchaseOrder>("HEADER").Position(0,1).Properties(properties =>
+                {
+                    properties.Property(x => x.Number).Position(1,2).Required();
+                    properties.Property(x => x.Supplier).Position(2,3).Required();
 
-            //        properties.Property(x => x.Details).Child().Tag("DETAIL").StartPosition(0).EndPosition(1).MapTo<Detail>()
-            //        .Properties(childProperties =>
-            //        {
-            //            childProperties.Property(x => x.ItemCode).StartPosition(0).EndPosition(1).Required();
-            //            childProperties.Property(x => x.Description).StartPosition(1).EndPosition(2).Required();
-            //        });
-            //    });
+                    properties.Property(x => x.Details).MapTo<Detail>("DETAIL").Position(0,1).Properties(childProperties =>
+                    {
+                        childProperties.Property(x => x.ItemCode).Position(1,2).Required();
+                        childProperties.Property(x => x.Description).Position(2,3).Required();
+                    });
+                });
+
+            parserPositionWithTag.Positioned().MapTo<PurchaseOrder>().Properties(properties =>
+            {
+                properties.Property(x => x.Number).Position(0,1).Required();
+                properties.Property(x => x.Supplier).Position(1,2).Required();
+            });
 
             //var parserDelimitedWithoutTag = new Parser();
 

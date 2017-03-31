@@ -28,7 +28,7 @@ namespace Helpful.TextParser.Test.Parser
                 ElementType = ElementType.Tag,
                 Positions = new Dictionary<string, int>()
                         {
-                            { "Position", 0 }
+                            { "Positioned", 0 }
                         },
                 Children = new List<DelimitedElement>()
                 {
@@ -38,7 +38,7 @@ namespace Helpful.TextParser.Test.Parser
                         ElementType = ElementType.Property,
                         Positions = new Dictionary<string, int>()
                         {
-                            { "Position", 1 }
+                            { "Positioned", 1 }
                         }
                     },
                     new DelimitedElement()
@@ -47,7 +47,7 @@ namespace Helpful.TextParser.Test.Parser
                         ElementType = ElementType.Property,
                         Positions = new Dictionary<string, int>()
                         {
-                            { "Position", 2 }
+                            { "Positioned", 2 }
                         }
                     },
                     new DelimitedElement()
@@ -56,7 +56,7 @@ namespace Helpful.TextParser.Test.Parser
                         ElementType = ElementType.Property,
                         Positions = new Dictionary<string, int>()
                         {
-                            { "Position", 3 }
+                            { "Positioned", 3 }
                         }
                     },
                     new DelimitedElement()
@@ -65,7 +65,7 @@ namespace Helpful.TextParser.Test.Parser
                         ElementType = ElementType.Property,
                         Positions = new Dictionary<string, int>()
                         {
-                            { "Position", 4 }
+                            { "Positioned", 4 }
                         }
                     },
                     new DelimitedElement()
@@ -74,7 +74,7 @@ namespace Helpful.TextParser.Test.Parser
                         ElementType = ElementType.Property,
                         Positions = new Dictionary<string, int>()
                         {
-                            { "Position", 5 }
+                            { "Positioned", 5 }
                         }
                     },
                     new DelimitedElement()
@@ -83,7 +83,7 @@ namespace Helpful.TextParser.Test.Parser
                         ElementType = ElementType.Property,
                         Positions = new Dictionary<string, int>()
                         {
-                            { "Position", 6 }
+                            { "Positioned", 6 }
                         }
                     },
                     new DelimitedElement()
@@ -92,7 +92,7 @@ namespace Helpful.TextParser.Test.Parser
                         ElementType = ElementType.Property,
                         Positions = new Dictionary<string, int>()
                         {
-                            { "Position", 7 }
+                            { "Positioned", 7 }
                         }
                     },
                     new DelimitedElement()
@@ -101,7 +101,7 @@ namespace Helpful.TextParser.Test.Parser
                         ElementType = ElementType.Property,
                         Positions = new Dictionary<string, int>()
                         {
-                            { "Position", 8 }
+                            { "Positioned", 8 }
                         }
                     }
                 }
@@ -130,7 +130,7 @@ namespace Helpful.TextParser.Test.Parser
                 ElementType = ElementType.Tag,
                 Positions = new Dictionary<string, int>()
                         {
-                            { "Position", 0 }
+                            { "Positioned", 0 }
                         },
                 Elements = new List<Element>()
                 {
@@ -140,7 +140,7 @@ namespace Helpful.TextParser.Test.Parser
                         ElementType = ElementType.Property,
                         Positions = new Dictionary<string, int>()
                         {
-                            { "Position", 1 }
+                            { "Positioned", 1 }
                         }
                     },
                     new Element()
@@ -149,7 +149,7 @@ namespace Helpful.TextParser.Test.Parser
                         ElementType = ElementType.Property,
                         Positions = new Dictionary<string, int>()
                         {
-                            { "Position", 2 }
+                            { "Positioned", 2 }
                         }
                     },
                     new Element()
@@ -158,7 +158,7 @@ namespace Helpful.TextParser.Test.Parser
                         ElementType = ElementType.Property,
                         Positions = new Dictionary<string, int>()
                         {
-                            { "Position", 3 }
+                            { "Positioned", 3 }
                         }
                     },
                     new Element()
@@ -173,7 +173,7 @@ namespace Helpful.TextParser.Test.Parser
                         LineValueExtractorType = LineValueExtractorType.DelimitedByString,
                         Positions = new Dictionary<string, int>()
                         {
-                            { "Position", 0 }
+                            { "Positioned", 0 }
                         },
                         Type = typeof(PurchaseOrderDetail),
                         Elements = new List<Element>()
@@ -184,7 +184,7 @@ namespace Helpful.TextParser.Test.Parser
                                 ElementType = ElementType.Property,
                                 Positions = new Dictionary<string, int>()
                                 {
-                                    { "Position", 1 }
+                                    { "Positioned", 1 }
                                 }
                             },
                             new Element()
@@ -193,7 +193,7 @@ namespace Helpful.TextParser.Test.Parser
                                 ElementType = ElementType.Property,
                                 Positions = new Dictionary<string, int>()
                                 {
-                                    { "Position", 2 }
+                                    { "Positioned", 2 }
                                 }
                             },
                             new Element()
@@ -202,7 +202,7 @@ namespace Helpful.TextParser.Test.Parser
                                 ElementType = ElementType.Property,
                                 Positions = new Dictionary<string, int>()
                                 {
-                                    { "Position", 3 }
+                                    { "Positioned", 3 }
                                 }
                             },
                             new Element()
@@ -211,7 +211,7 @@ namespace Helpful.TextParser.Test.Parser
                                 ElementType = ElementType.Property,
                                 Positions = new Dictionary<string, int>()
                                 {
-                                    { "Position", 4 }
+                                    { "Positioned", 4 }
                                 }
                             },
                             new Element()
@@ -220,7 +220,7 @@ namespace Helpful.TextParser.Test.Parser
                                 ElementType = ElementType.Property,
                                 Positions = new Dictionary<string, int>()
                                 {
-                                    { "Position", 5 }
+                                    { "Positioned", 5 }
                                 }
                             }
                         }

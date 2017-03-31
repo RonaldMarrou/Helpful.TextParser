@@ -40,69 +40,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fluent\Impl\Delimited\DelimitedDescriptor.cs" />
-    <Compile Include="Fluent\Impl\Delimited\WithChildren\DelimitedWithChildrenTagDescriptor.cs" />
-    <Compile Include="Fluent\Impl\Delimited\WithChildren\DelimitedWithChildrenMapToDescriptor.cs" />
-    <Compile Include="Fluent\Impl\Delimited\WithChildren\DelimitedWithChildrenPropertiesDescriptor.cs" />
-    <Compile Include="Fluent\Impl\Delimited\WithChildren\DelimitedWithChildrenPropertyDescriptor.cs" />
-    <Compile Include="Fluent\Impl\Delimited\WithoutChildren\DelimitedWithChildrenPropertyWithoutChildrenPositionDescriptor.cs" />
-    <Compile Include="Fluent\Impl\Delimited\WithChildren\DelimitedWithChildrenPropertyWithChildrenTagDescriptor.cs" />
-    <Compile Include="Fluent\Impl\Delimited\WithChildren\DelimitedWithChildrenPropertyWithChildrenDescriptor.cs" />
-    <Compile Include="Fluent\Impl\Delimited\WithoutChildren\DelimitedWithoutChildrenMapToDescriptor.cs" />
-    <Compile Include="Fluent\Impl\Delimited\WithoutChildren\DelimitedWithoutChildrenPropertiesDescriptor.cs" />
-    <Compile Include="Fluent\Impl\Delimited\WithoutChildren\DelimitedWithoutChildrenPropertyDescriptor.cs" />
-    <Compile Include="Fluent\Impl\Delimited\WithoutChildren\DelimitedWithoutChildrenPropertyPositionDescriptor.cs" />
-    <Compile Include="Fluent\Interface\Delimited\IDelimitedDescriptor.cs" />
-    <Compile Include="Fluent\Interface\Delimited\IDelimitedParseDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithoutChildrenPropertyDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithoutChildrenPropertyEndPositionDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithoutChildrenPropertyStartPositionDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithoutChildrenPropertyRequiredDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithoutChildrenPropertyWithChildrenDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertyDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertyMapToDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertyPositionDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertyRequiredDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertyStartPositionDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertyTagEndPositionDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertyTagStartPositionDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertyWithChildrenDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertyWithChildrenMapToDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertyWithChildrenTagDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithChildrenPropertiesDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithoutChildrenPropertiesDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithChildrenMapToDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithChildrenTagEndPositionDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithChildrenTagStartPositionDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithChildrenDescriptor.cs" />
-    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenPropertyMapToDescriptor.cs" />
-    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenMapToDescriptor.cs" />
-    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenPropertyWithChildrenTagPositionDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionWithoutChildrenMapToDescriptor.cs" />
-    <Compile Include="Fluent\Interface\Delimited\WithoutChildren\IDelimitedWithoutChildrenPropertyRequiredDescriptor.cs" />
-    <Compile Include="Fluent\Interface\Delimited\WithoutChildren\IDelimitedWithoutChildrenPropertyPositionDescriptor.cs" />
-    <Compile Include="Fluent\Interface\Delimited\WithoutChildren\IDelimitedWithoutChildrenPropertyDescriptor.cs" />
-    <Compile Include="Fluent\Interface\Delimited\WithoutChildren\IDelimitedWithoutChildrenPropertiesDescriptor.cs" />
-    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenPropertiesDescriptor.cs" />
-    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenPropertyDescriptor.cs" />
-    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenPropertyWithoutChildrenPositionDescriptor.cs" />
-    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenPropertyWithoutChildrenRequiredDescriptor.cs" />
-    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenPropertyWithChildrenDescriptor.cs" />
-    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenPropertyWithChildrenTagDescriptor.cs" />
-    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenTagDescriptor.cs" />
-    <Compile Include="Fluent\Interface\Delimited\WithChildren\IDelimitedWithChildrenTagPositionDescriptor.cs" />
-    <Compile Include="Fluent\Interface\Delimited\WithoutChildren\IDelimitedWithoutChildrenMapToDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IDelimitedPropertiesOnlyDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IDelimitedPropertyMapToDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IDelimitedPositionDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IDelimitedPropertiesDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IDelimitedPropertyDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IDelimitedPropertyOnlyDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IDelimitedPropertyOnlyPositionDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IDelimitedPropertyOnlyRequiredDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IDelimitedPropertyPositionDescriptor.cs" />
+    <Compile Include="Fluent\Interface\IDelimitedPropertyRequiredDescriptor.cs" />
     <Compile Include="Impl\LineValueExtractor\DelimitedLineValueExtractor.cs" />
     <Compile Include="Impl\Parser.cs" />
     <Compile Include="Impl\FluentParser.cs" />
     <Compile Include="Impl\LineValueExtractor\LineValueExtractorFactory.cs" />
     <Compile Include="Impl\LineValueExtractor\PositionedLineValueExtractor.cs" />
     <Compile Include="Impl\ValueSetter.cs" />
+    <Compile Include="Fluent\Interface\IDelimitedDescriptor.cs" />
     <Compile Include="Interface\IFluentParser.cs" />
     <Compile Include="Interface\ILineValueExtractorFactory.cs" />
     <Compile Include="Interface\IParser.cs" />
     <Compile Include="Interface\ILineValueExtractor.cs" />
+    <Compile Include="Fluent\Interface\IPositionDescriptor.cs" />
     <Compile Include="Interface\IValueSetter.cs" />
     <Compile Include="Model\DelimitedElement.cs" />
     <Compile Include="Model\Element.cs" />
@@ -112,7 +71,9 @@
     <Compile Include="Model\LineValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Fluent\Impl\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

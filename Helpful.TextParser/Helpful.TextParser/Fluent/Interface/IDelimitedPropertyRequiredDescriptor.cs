@@ -1,6 +1,6 @@
 ﻿namespace Helpful.TextParser.Fluent.Interface
 {
-    public interface IPositionWithoutChildrenPropertyRequiredDescriptor
+    public interface IDelimitedPropertyRequiredDescriptor
     {
         void Required();
 

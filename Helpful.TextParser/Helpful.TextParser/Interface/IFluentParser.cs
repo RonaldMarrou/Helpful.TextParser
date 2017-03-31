@@ -1,5 +1,4 @@
 ﻿using Helpful.TextParser.Fluent.Interface;
-using Helpful.TextParser.Fluent.Interface.Delimited;
 
 namespace Helpful.TextParser.Interface
 {

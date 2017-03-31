@@ -7,22 +7,25 @@ namespace Helpful.TextParser.Dummy
     {
         static void Main(string[] args)
         {
-            //var parserDelimitedWithTag = new FluentParser();
+            var parserDelimitedWithTag = new FluentParser();
 
-            //parserDelimitedWithTag.Delimited(",").WithChildren().Tag("HEADER").Position(0).MapTo<PurchaseOrder>()
-            //    .Properties(properties =>
-            //    {
-            //        properties.Property(x => x.Number).WithoutChildren().Position(1).Required();
-            //        properties.Property(x => x.Supplier).WithoutChildren().Position(2).Required();
+            parserDelimitedWithTag.Delimited(",").MapTo<PurchaseOrder>("HEADER").Position(0).Properties(properties =>
+            {
+                properties.Property(x => x.Number).Position(1).Required();
+                properties.Property(x => x.Supplier).Position(2).Required();
 
-            //        properties.Property(x => x.Details).WithChildren().Tag("DETAIL").Position(0).MapTo<Detail>()
-            //        .Properties(childProperties =>
-            //        {
-            //            childProperties.Property(x => x.ItemCode).WithoutChildren().Position(1).Required();
-            //            childProperties.Property(x => x.Description).WithoutChildren().Position(2).Required();
-            //        });
-            //    })
-            //    .Parse();
+                properties.Property(x => x.Details).MapTo<Detail>("DETAIL").Position(0).Properties(childProperties =>
+                {
+                    childProperties.Property(x => x.ItemCode).Position(1).Required();
+                    childProperties.Property(x => x.Description).Position(2).Required();
+                });
+            });
+
+            parserDelimitedWithTag.Delimited(",").MapTo<PurchaseOrder>().Properties(properties =>
+            {
+                properties.Property(x => x.Number).Position(1).Required();
+                properties.Property(x => x.Supplier).Position(2).Required();
+            });
 
             //var parserPositionWithTag = new Parser();
 

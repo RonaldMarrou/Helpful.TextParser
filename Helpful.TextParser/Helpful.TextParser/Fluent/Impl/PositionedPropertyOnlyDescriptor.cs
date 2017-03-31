@@ -8,16 +8,16 @@ using Helpful.TextParser.Model;
 
 namespace Helpful.TextParser.Fluent.Impl
 {
-    public class DelimitedPropertyDescriptor<TClass> : IDelimitedPropertyDescriptor<TClass>, IDelimitedPropertyMapToDescriptor, IDelimitedPropertyRequiredDescriptor where TClass : class
+    public class PositionedPropertyOnlyDescriptor<TClass> : IPositionedPropertyOnlyDescriptor<TClass>, IPositionedPropertyOnlyPositionDescriptor, IPositionedPropertyOnlyRequiredDescriptor where TClass : class
     {
         private readonly List<Element> _elements;
 
-        public DelimitedPropertyDescriptor(List<Element> elements)
+        public PositionedPropertyOnlyDescriptor(List<Element> elements)
         {
             _elements = elements;
         }
-        
-        public IDelimitedPropertyMapToDescriptor Property<TProperty>(Expression<Func<TClass, TProperty>> property)
+
+        public IPositionedPropertyOnlyPositionDescriptor Property<TProperty>(Expression<Func<TClass, TProperty>> property)
         {
             var type = typeof(TClass);
 
@@ -50,25 +50,17 @@ namespace Helpful.TextParser.Fluent.Impl
             return this;
         }
 
-        public IDelimitedPropertyPositionDescriptor<TChildClass> MapTo<TChildClass>(string tag) where TChildClass : class
+        public IPositionedPropertyOnlyRequiredDescriptor Position(int startPosition, int endPosition)
         {
-            if (string.IsNullOrEmpty(tag))
+            if (startPosition >= endPosition)
             {
-                throw new ArgumentException($"Tag cannot be empty for {typeof(TChildClass).FullName}");
+                throw new ArgumentException($"Start Position {startPosition} is greather or equal than {endPosition} for {typeof(TClass).FullName}");
             }
 
             var element = _elements.Last();
 
-            element.Type = typeof(TChildClass);
-
-            return new DelimitedPropertyPositionDescriptor<TChildClass>(element);
-        }
-
-        public IDelimitedPropertyRequiredDescriptor Position(int position)
-        {
-            var element = _elements.Last();
-
-            element.Positions.Add("Position", position);
+            element.Positions.Add("StartPosition", startPosition);
+            element.Positions.Add("EndPosition", endPosition);
 
             return this;
         }

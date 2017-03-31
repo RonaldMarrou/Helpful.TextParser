@@ -40,7 +40,7 @@ namespace Helpful.TextParser.Fluent.Impl
                 throw new ArgumentException($"Expresion {property} refers to a property that is not from type {type}.");
             }
 
-            var element = new DelimitedElement()
+            var element = new Element()
             {
                 Name = propInfo.Name
             };

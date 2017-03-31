@@ -40,11 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fluent\Impl\PositionedDescriptor.cs" />
     <Compile Include="Fluent\Impl\DelimitedDescriptor.cs" />
+    <Compile Include="Fluent\Impl\PositionedPositionDescriptor.cs" />
     <Compile Include="Fluent\Impl\DelimitedPositionDescriptor.cs" />
+    <Compile Include="Fluent\Impl\PositionedPropertiesOnlyDescriptor.cs" />
     <Compile Include="Fluent\Impl\DelimitedPropertiesOnlyDescriptor.cs" />
+    <Compile Include="Fluent\Impl\PositionedPropertyDescriptor.cs" />
     <Compile Include="Fluent\Impl\DelimitedPropertyDescriptor.cs" />
+    <Compile Include="Fluent\Impl\PositionedPropertyOnlyDescriptor.cs" />
     <Compile Include="Fluent\Impl\DelimitedPropertyOnlyDescriptor.cs" />
+    <Compile Include="Fluent\Impl\PositionedPropertyPositionDescriptor.cs" />
     <Compile Include="Fluent\Impl\DelimitedPropertyPositionDescriptor.cs" />
     <Compile Include="Fluent\Interface\IDelimitedPropertiesOnlyDescriptor.cs" />
     <Compile Include="Fluent\Interface\IDelimitedPropertyMapToDescriptor.cs" />
@@ -59,7 +65,7 @@
     <Compile Include="Fluent\Interface\IPositionedPositionDescriptor.cs" />
     <Compile Include="Fluent\Interface\IPositionedPropertiesDescriptor.cs" />
     <Compile Include="Fluent\Interface\IPositionedPropertiesOnlyDescriptor.cs" />
-    <Compile Include="Fluent\Interface\IPositionedPropertyDescritor.cs" />
+    <Compile Include="Fluent\Interface\IPositionedPropertyDescriptor.cs" />
     <Compile Include="Fluent\Interface\IPositionedPropertyMapToDescriptor.cs" />
     <Compile Include="Fluent\Interface\IPositionedPropertyOnlyDescriptor.cs" />
     <Compile Include="Fluent\Interface\IPositionedPropertyOnlyPositionDescriptor.cs" />
@@ -79,7 +85,6 @@
     <Compile Include="Interface\ILineValueExtractor.cs" />
     <Compile Include="Fluent\Interface\IPositionedDescriptor.cs" />
     <Compile Include="Interface\IValueSetter.cs" />
-    <Compile Include="Model\DelimitedElement.cs" />
     <Compile Include="Model\Element.cs" />
     <Compile Include="Model\ElementType.cs" />
     <Compile Include="Model\LineValueExtractorType.cs" />

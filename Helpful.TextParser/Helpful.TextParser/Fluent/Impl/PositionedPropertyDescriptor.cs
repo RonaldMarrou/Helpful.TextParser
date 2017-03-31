@@ -8,16 +8,16 @@ using Helpful.TextParser.Model;
 
 namespace Helpful.TextParser.Fluent.Impl
 {
-    public class DelimitedPropertyDescriptor<TClass> : IDelimitedPropertyDescriptor<TClass>, IDelimitedPropertyMapToDescriptor, IDelimitedPropertyRequiredDescriptor where TClass : class
+    public class PositionedPropertyDescriptor<TClass> : IPositionedPropertyDescriptor<TClass>, IPositionedPropertyMapToDescriptor, IPositionedPropertyRequiredDescriptor where TClass : class
     {
         private readonly List<Element> _elements;
 
-        public DelimitedPropertyDescriptor(List<Element> elements)
+        public PositionedPropertyDescriptor(List<Element> elements)
         {
             _elements = elements;
         }
         
-        public IDelimitedPropertyMapToDescriptor Property<TProperty>(Expression<Func<TClass, TProperty>> property)
+        public IPositionedPropertyMapToDescriptor Property<TProperty>(Expression<Func<TClass, TProperty>> property)
         {
             var type = typeof(TClass);
 
@@ -50,7 +50,7 @@ namespace Helpful.TextParser.Fluent.Impl
             return this;
         }
 
-        public IDelimitedPropertyPositionDescriptor<TChildClass> MapTo<TChildClass>(string tag) where TChildClass : class
+        public IPositionedPropertyPositionDescriptor<TChildClass> MapTo<TChildClass>(string tag) where TChildClass : class
         {
             if (string.IsNullOrEmpty(tag))
             {
@@ -61,14 +61,20 @@ namespace Helpful.TextParser.Fluent.Impl
 
             element.Type = typeof(TChildClass);
 
-            return new DelimitedPropertyPositionDescriptor<TChildClass>(element);
+            return new PositionedPropertyPositionDescriptor<TChildClass>(element);
         }
 
-        public IDelimitedPropertyRequiredDescriptor Position(int position)
+        public IPositionedPropertyRequiredDescriptor Position(int startPosition, int endPosition)
         {
+            if (startPosition >= endPosition)
+            {
+                throw new ArgumentException($"Start Position {startPosition} is greather or equal than {endPosition} for {typeof(TClass).FullName}");
+            }
+
             var element = _elements.Last();
 
-            element.Positions.Add("Position", position);
+            element.Positions.Add("StartPosition", startPosition);
+            element.Positions.Add("EndPosition", endPosition);
 
             return this;
         }

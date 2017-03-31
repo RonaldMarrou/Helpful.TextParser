@@ -62,15 +62,6 @@
   <ItemGroup>
     <Compile Include="LineValueExtractor\DelimitedLineValueExtractorTest.cs" />
     <Compile Include="LineValueExtractor\PositionedLineValueExtractorTest.cs" />
-    <Compile Include="Parser\ParserTest.cs" />
-    <Compile Include="Parser\ParserTestResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ParserTestResources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Parser\Person.cs" />
-    <Compile Include="Parser\PurchaseOrder.cs" />
-    <Compile Include="Parser\PurchaseOrderDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValueSetter\ValueSetterTest.cs" />
   </ItemGroup>
@@ -82,12 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Parser\ParserTestResources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ParserTestResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

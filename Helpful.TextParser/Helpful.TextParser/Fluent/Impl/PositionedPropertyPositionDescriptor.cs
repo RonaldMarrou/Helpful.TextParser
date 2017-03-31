@@ -4,7 +4,7 @@ using Helpful.TextParser.Model;
 
 namespace Helpful.TextParser.Fluent.Impl
 {
-    public class PositionedPropertyPositionDescriptor<TClass> : IPositionedPropertyPositionDescriptor<TClass>, IPositionedPropertiesDescriptor<TClass> where TClass : class
+    public class PositionedPropertyPositionDescriptor<TClass> : IPositionedPropertyPositionDescriptor<TClass>, IPositionedPropertyPropertiesDescriptor<TClass> where TClass : class
     {
         private readonly Element _element;
 
@@ -15,7 +15,7 @@ namespace Helpful.TextParser.Fluent.Impl
             _element = element;
         }
 
-        public IPositionedPropertiesDescriptor<TClass> Position(int startPosition, int endPosition)
+        public IPositionedPropertyPropertiesDescriptor<TClass> Position(int startPosition, int endPosition)
         {
             if (startPosition >= endPosition)
             {

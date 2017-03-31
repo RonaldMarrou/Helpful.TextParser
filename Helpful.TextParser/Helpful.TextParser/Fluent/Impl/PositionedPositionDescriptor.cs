@@ -1,18 +1,22 @@
 ﻿using System;
 using Helpful.TextParser.Fluent.Interface;
+using Helpful.TextParser.Interface;
 using Helpful.TextParser.Model;
 
 namespace Helpful.TextParser.Fluent.Impl
 {
-    public class PositionedPositionDescriptor<TClass> : IPositionedPositionDescriptor<TClass>, IPositionedPropertiesDescriptor<TClass> where TClass : class
+    public class PositionedPositionDescriptor<TClass> : IPositionedPositionDescriptor<TClass>, IPositionedPropertiesDescriptor<TClass>, IParseDescriptor<TClass> where TClass : class
     {
         private readonly Element _element;
 
         private Action<IPositionedPropertyDescriptor<TClass>> _action;
 
-        public PositionedPositionDescriptor(Element element)
+        private readonly IParser _parser;
+
+        public PositionedPositionDescriptor(Element element, IParser parser)
         {
             _element = element;
+            _parser = parser;
         }
 
         public IPositionedPropertiesDescriptor<TClass> Position(int startPosition, int endPosition)
@@ -28,13 +32,25 @@ namespace Helpful.TextParser.Fluent.Impl
             return this;
         }
 
-        public void Properties(Action<IPositionedPropertyDescriptor<TClass>> properties)
+        public IParseDescriptor<TClass> Properties(Action<IPositionedPropertyDescriptor<TClass>> properties)
         {
             _action = properties;
 
             var delimitedPropertyDescriptor = new PositionedPropertyDescriptor<TClass>(_element.Elements);
 
             _action(delimitedPropertyDescriptor);
+
+            return this;
+        }
+
+        public Result<TClass> Parse(string[] content)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Result<TClass> Parse(Func<string, string[]> content)
+        {
+            throw new NotImplementedException();
         }
     }
 }

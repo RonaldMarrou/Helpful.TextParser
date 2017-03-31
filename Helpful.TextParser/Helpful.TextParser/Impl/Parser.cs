@@ -17,7 +17,7 @@ namespace Helpful.TextParser.Impl
             _valueSetter = valueSetter;
         }
 
-        public void Parse<T>(Element element, string[] lines)
+        public Result<T> Parse<T>(Element element, string[] lines)
         {
             var result = new Result<T>();
 
@@ -29,6 +29,8 @@ namespace Helpful.TextParser.Impl
             {
                 ParseWithTag<T>(element, result, lines, 0);
             }
+
+            return result;
         }
 
         private void ParseWithTag<T>(Element element, Result<T> result , string[] lines, int linePosition)

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpful.TextParser", "Helpf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpful.TextParser.Test", "Helpful.TextParser.Test\Helpful.TextParser.Test.csproj", "{06679E5E-9E5B-42E8-B0DC-49E510BEA0F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpful.TextParser.Unity3.Installer", "Helpful.TextParser.Unity3.Installer\Helpful.TextParser.Unity3.Installer.csproj", "{65B5972D-FFA0-444B-90B5-8F66787C5B43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{06679E5E-9E5B-42E8-B0DC-49E510BEA0F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06679E5E-9E5B-42E8-B0DC-49E510BEA0F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06679E5E-9E5B-42E8-B0DC-49E510BEA0F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65B5972D-FFA0-444B-90B5-8F66787C5B43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65B5972D-FFA0-444B-90B5-8F66787C5B43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65B5972D-FFA0-444B-90B5-8F66787C5B43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65B5972D-FFA0-444B-90B5-8F66787C5B43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

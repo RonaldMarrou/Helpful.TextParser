@@ -2,6 +2,6 @@
 {
     public interface IDelimitedPropertyPositionDescriptor<TClass> where TClass : class
     {
-        IDelimitedPropertiesDescriptor<TClass> Position(int position);
+        IDelimitedPropertyPropertiesDescriptor<TClass> Position(int position);
     }
 }

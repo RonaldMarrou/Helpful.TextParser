@@ -1,5 +1,6 @@
 ﻿using System;
 using Helpful.TextParser.Fluent.Interface;
+using Helpful.TextParser.Interface;
 using Helpful.TextParser.Model;
 
 namespace Helpful.TextParser.Fluent.Impl
@@ -7,10 +8,12 @@ namespace Helpful.TextParser.Fluent.Impl
     public class PositionedDescriptor : IPositionedDescriptor
     {
         private readonly Element _element;
+        private readonly IParser _parser;
 
-        public PositionedDescriptor(Element element)
+        public PositionedDescriptor(Element element, IParser parser)
         {
             _element = element;
+            _parser = parser;
         }
 
         public IPositionedPositionDescriptor<TClass> MapTo<TClass>(string tag) where TClass : class
@@ -24,7 +27,7 @@ namespace Helpful.TextParser.Fluent.Impl
             _element.ElementType = ElementType.Tag;
             _element.Type = typeof(TClass);
 
-            return new PositionedPositionDescriptor<TClass>(_element);
+            return new PositionedPositionDescriptor<TClass>(_element, _parser);
         }
 
         public IPositionedPropertiesOnlyDescriptor<TClass> MapTo<TClass>() where TClass : class
@@ -32,7 +35,7 @@ namespace Helpful.TextParser.Fluent.Impl
             _element.Type = typeof(TClass);
             _element.ElementType = ElementType.PropertyCollection;
 
-            return null;
+            return new PositionedPropertiesOnlyDescriptor<TClass>(_element, _parser);
         }
     }
 }

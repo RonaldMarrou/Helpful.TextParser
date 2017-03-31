@@ -4,7 +4,7 @@ using Helpful.TextParser.Model;
 
 namespace Helpful.TextParser.Fluent.Impl
 {
-    public class DelimitedPropertyPositionDescriptor<TClass> : IDelimitedPropertyPositionDescriptor<TClass>, IDelimitedPropertiesDescriptor<TClass> where TClass : class
+    public class DelimitedPropertyPositionDescriptor<TClass> : IDelimitedPropertyPositionDescriptor<TClass>, IDelimitedPropertyPropertiesDescriptor<TClass> where TClass : class
     {
         private readonly Element _element;
 
@@ -15,7 +15,7 @@ namespace Helpful.TextParser.Fluent.Impl
             _element = element;
         }
 
-        public IDelimitedPropertiesDescriptor<TClass> Position(int position)
+        public IDelimitedPropertyPropertiesDescriptor<TClass> Position(int position)
         {
             _element.Positions.Add("Position", position);
 

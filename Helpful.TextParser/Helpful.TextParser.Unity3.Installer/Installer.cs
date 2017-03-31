@@ -9,12 +9,12 @@ namespace Helpful.TextParser.Unity3.Installer
     {
         public static void InstallTextParser(this UnityContainer container)
         {
-            container.RegisterType<IFluentParser, FluentParser>(typeof(Parser).FullName, new ContainerControlledLifetimeManager());
-            container.RegisterType<IParser, Parser>(typeof(Parser).FullName, new ContainerControlledLifetimeManager());
-            container.RegisterType<ILineValueExtractor, DelimitedLineValueExtractor>(typeof(DelimitedLineValueExtractor).FullName, new ContainerControlledLifetimeManager());
-            container.RegisterType<ILineValueExtractor, PositionedLineValueExtractor>(typeof(PositionedLineValueExtractor).FullName, new ContainerControlledLifetimeManager());
-            container.RegisterType<ILineValueExtractorFactory, LineValueExtractorFactory>(typeof(LineValueExtractorFactory).FullName, new ContainerControlledLifetimeManager());
-            container.RegisterType<IValueSetter, ValueSetter>(typeof(LineValueExtractorFactory).FullName, new ContainerControlledLifetimeManager());
+            container.RegisterType<IFluentParser, FluentParser>(new TransientLifetimeManager());
+            container.RegisterType<IParser, Parser>(new TransientLifetimeManager());
+            container.RegisterType<ILineValueExtractor, DelimitedLineValueExtractor>(typeof(DelimitedLineValueExtractor).FullName, new TransientLifetimeManager());
+            container.RegisterType<ILineValueExtractor, PositionedLineValueExtractor>(typeof(PositionedLineValueExtractor).FullName, new TransientLifetimeManager());
+            container.RegisterType<ILineValueExtractorFactory, LineValueExtractorFactory>(new TransientLifetimeManager());
+            container.RegisterType<IValueSetter, ValueSetter>(new TransientLifetimeManager());
         }
     }
 }

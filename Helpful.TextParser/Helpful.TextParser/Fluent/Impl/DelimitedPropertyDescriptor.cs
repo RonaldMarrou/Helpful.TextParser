@@ -59,6 +59,9 @@ namespace Helpful.TextParser.Fluent.Impl
 
             var element = _elements.Last();
 
+            element.LineValueExtractorType = LineValueExtractorType.DelimitedByString;
+            element.ElementType = ElementType.Tag;
+            element.Tag = tag;
             element.Type = typeof(TChildClass);
 
             return new DelimitedPropertyPositionDescriptor<TChildClass>(element);
@@ -68,6 +71,7 @@ namespace Helpful.TextParser.Fluent.Impl
         {
             var element = _elements.Last();
 
+            element.ElementType = ElementType.Property;
             element.Positions.Add("Position", position);
 
             return this;

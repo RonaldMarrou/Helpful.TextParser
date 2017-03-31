@@ -59,6 +59,7 @@ namespace Helpful.TextParser.Fluent.Impl
 
             var element = _elements.Last();
 
+            element.ElementType = ElementType.Property;
             element.Positions.Add("StartPosition", startPosition);
             element.Positions.Add("EndPosition", endPosition);
 

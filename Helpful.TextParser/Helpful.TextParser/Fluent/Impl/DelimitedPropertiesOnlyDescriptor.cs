@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Helpful.TextParser.Fluent.Interface;
 using Helpful.TextParser.Interface;
 using Helpful.TextParser.Model;

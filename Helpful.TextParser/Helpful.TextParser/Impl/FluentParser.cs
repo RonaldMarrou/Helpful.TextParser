@@ -14,14 +14,17 @@ namespace Helpful.TextParser.Impl
             _parser = parser;
         }
 
-        public IDelimitedDescriptor Delimited(string delimitationCharacter)
+        public IDelimitedDescriptor Delimited(string delimitationString)
         {
-            return new DelimitedDescriptor(new Element(), _parser);
+            var element = new Element() {LineValueExtractorType = LineValueExtractorType.DelimitedByString};
+            element.Custom.Add("DelimitationString", delimitationString);
+
+            return new DelimitedDescriptor(element, _parser);
         }
 
         public IPositionedDescriptor Positioned()
         {
-            return new PositionedDescriptor(new Element(), _parser);
+            return new PositionedDescriptor(new Element() { LineValueExtractorType = LineValueExtractorType.Positioned }, _parser);
         }
     }
 }

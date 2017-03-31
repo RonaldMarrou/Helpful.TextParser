@@ -59,6 +59,9 @@ namespace Helpful.TextParser.Fluent.Impl
 
             var element = _elements.Last();
 
+            element.LineValueExtractorType = LineValueExtractorType.Positioned;
+            element.ElementType = ElementType.Tag;
+            element.Tag = tag;
             element.Type = typeof(TChildClass);
 
             return new PositionedPropertyPositionDescriptor<TChildClass>(element);
@@ -73,6 +76,7 @@ namespace Helpful.TextParser.Fluent.Impl
 
             var element = _elements.Last();
 
+            element.ElementType = ElementType.Property;
             element.Positions.Add("StartPosition", startPosition);
             element.Positions.Add("EndPosition", endPosition);
 

@@ -54,6 +54,7 @@ namespace Helpful.TextParser.Fluent.Impl
         {
             var element = _elements.Last();
 
+            element.ElementType = ElementType.Property;
             element.Positions.Add("Position", position);
 
             return this;

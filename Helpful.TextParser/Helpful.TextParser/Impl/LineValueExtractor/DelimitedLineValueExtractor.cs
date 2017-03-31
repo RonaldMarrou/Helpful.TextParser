@@ -8,7 +8,7 @@ namespace Helpful.TextParser.Impl.LineValueExtractor
     {
         public LineValue Extract(string line, Element element, Element parentElement = null)
         {
-            var position = element.Positions["Positioned"];
+            var position = element.Positions["Position"];
 
             var delimitationString = parentElement == null ? element.Custom["DelimitationString"] : parentElement.Custom["DelimitationString"];
 

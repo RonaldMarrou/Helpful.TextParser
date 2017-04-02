@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Helpful.TextParser.Fluent.Interface;
 using Helpful.TextParser.Interface;
 using Helpful.TextParser.Model;
@@ -30,14 +29,9 @@ namespace Helpful.TextParser.Fluent.Impl
         {
             _action = properties;
 
-            var delimitedPropertyDescriptor = new DelimitedPropertyDescriptor<TClass>(_element.Elements);
+            var delimitedPropertyDescriptor = new DelimitedPropertyDescriptor<TClass>(_element);
 
             _action(delimitedPropertyDescriptor);
-
-            foreach (var tagElements in _element.Elements.Where(x => x.ElementType == ElementType.Tag))
-            {
-                tagElements.Custom.Add("DelimitationString", _element.Custom["DelimitationString"]);
-            }
 
             return this;
         }

@@ -10,11 +10,11 @@ namespace Helpful.TextParser.Fluent.Impl
 {
     public class DelimitedPropertyOnlyDescriptor<TClass> : IDelimitedPropertyOnlyDescriptor<TClass>, IDelimitedPropertyOnlyPositionDescriptor, IDelimitedPropertyOnlyRequiredDescriptor where TClass : class
     {
-        private readonly List<Element> _elements;
+        private readonly Element _parentElement;
 
-        public DelimitedPropertyOnlyDescriptor(List<Element> elements)
+        public DelimitedPropertyOnlyDescriptor(Element parentElement)
         {
-            _elements = elements;
+            _parentElement = parentElement;
         }
 
         public IDelimitedPropertyOnlyPositionDescriptor Property<TProperty>(Expression<Func<TClass, TProperty>> property)
@@ -45,14 +45,14 @@ namespace Helpful.TextParser.Fluent.Impl
                 Name = propInfo.Name
             };
 
-            _elements.Add(element);
+            _parentElement.Elements.Add(element);
 
             return this;
         }
 
         public IDelimitedPropertyOnlyRequiredDescriptor Position(int position)
         {
-            var element = _elements.Last();
+            var element = _parentElement.Elements.Last();
 
             element.ElementType = ElementType.Property;
             element.Positions.Add("Position", position);
@@ -62,14 +62,14 @@ namespace Helpful.TextParser.Fluent.Impl
 
         public void Required()
         {
-            var element = _elements.Last();
+            var element = _parentElement.Elements.Last();
 
             element.Required = true;
         }
 
         public void NotRequired()
         {
-            var element = _elements.Last();
+            var element = _parentElement.Elements.Last();
 
             element.Required = false;
         }

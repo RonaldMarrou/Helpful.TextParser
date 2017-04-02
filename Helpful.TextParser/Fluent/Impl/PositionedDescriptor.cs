@@ -10,9 +10,9 @@ namespace Helpful.TextParser.Fluent.Impl
         private readonly Element _element;
         private readonly IParser _parser;
 
-        public PositionedDescriptor(Element element, IParser parser)
+        public PositionedDescriptor(IParser parser)
         {
-            _element = element;
+            _element = new Element() { LineValueExtractorType = LineValueExtractorType.Positioned };
             _parser = parser;
         }
 

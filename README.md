@@ -1,2 +1,2 @@
-# Helpful.TextParser [![Build status] [![Coverage Status](https://coveralls.io/repos/github/RonaldMarrou/Helpful.TextParser/badge.svg?branch=master)](https://coveralls.io/github/RonaldMarrou/Helpful.TextParser?branch=master)
+# Helpful.TextParser [![Build status](https://ci.appveyor.com/api/projects/status/el19jp2ayd9ssg3n?svg=true)](https://ci.appveyor.com/project/RonaldMarrou/helpful-textparser) [![Coverage Status](https://coveralls.io/repos/github/RonaldMarrou/Helpful.TextParser/badge.svg?branch=master)](https://coveralls.io/github/RonaldMarrou/Helpful.TextParser?branch=master)
 A Helpful library to convert text into objects

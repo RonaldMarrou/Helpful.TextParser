@@ -7,7 +7,7 @@ namespace Helpful.TextParser.Fluent.Impl
 {
     public class PositionedDescriptor : IPositionedDescriptor
     {
-        private readonly Element _element;
+        protected readonly Element _element;
         private readonly IParser _parser;
 
         public PositionedDescriptor(IParser parser)

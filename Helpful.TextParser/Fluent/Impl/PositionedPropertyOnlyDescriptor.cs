@@ -10,11 +10,11 @@ namespace Helpful.TextParser.Fluent.Impl
 {
     public class PositionedPropertyOnlyDescriptor<TClass> : IPositionedPropertyOnlyDescriptor<TClass>, IPositionedPropertyOnlyPositionDescriptor, IPositionedPropertyOnlyRequiredDescriptor where TClass : class
     {
-        private readonly List<Element> _elements;
+        private readonly Element _parentElement;
 
-        public PositionedPropertyOnlyDescriptor(List<Element> elements)
+        public PositionedPropertyOnlyDescriptor(Element parentElement)
         {
-            _elements = elements;
+            _parentElement = parentElement;
         }
 
         public IPositionedPropertyOnlyPositionDescriptor Property<TProperty>(Expression<Func<TClass, TProperty>> property)
@@ -45,7 +45,7 @@ namespace Helpful.TextParser.Fluent.Impl
                 Name = propInfo.Name
             };
 
-            _elements.Add(element);
+            _parentElement.Elements.Add(element);
 
             return this;
         }
@@ -57,7 +57,7 @@ namespace Helpful.TextParser.Fluent.Impl
                 throw new ArgumentException($"Start Position {startPosition} is greather or equal than {endPosition} for {typeof(TClass).FullName}");
             }
 
-            var element = _elements.Last();
+            var element = _parentElement.Elements.Last();
 
             element.ElementType = ElementType.Property;
             element.Positions.Add("StartPosition", startPosition);
@@ -68,14 +68,14 @@ namespace Helpful.TextParser.Fluent.Impl
 
         public void Required()
         {
-            var element = _elements.Last();
+            var element = _parentElement.Elements.Last();
 
             element.Required = true;
         }
 
         public void NotRequired()
         {
-            var element = _elements.Last();
+            var element = _parentElement.Elements.Last();
 
             element.Required = false;
         }

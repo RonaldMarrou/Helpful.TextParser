@@ -32,7 +32,7 @@ namespace Helpful.TextParser.Fluent.Impl
         {
             _action = properties;
 
-            var delimitedPropertyDescriptor = new PositionedPropertyDescriptor<TClass>(_element.Elements);
+            var delimitedPropertyDescriptor = new PositionedPropertyDescriptor<TClass>(_element);
 
             _action(delimitedPropertyDescriptor);
         }

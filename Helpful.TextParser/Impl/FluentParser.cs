@@ -1,7 +1,6 @@
 ﻿using Helpful.TextParser.Interface;
 using Helpful.TextParser.Fluent.Impl;
 using Helpful.TextParser.Fluent.Interface;
-using Helpful.TextParser.Model;
 
 namespace Helpful.TextParser.Impl
 {

@@ -18,26 +18,9 @@ namespace Helpful.TextParser.Fluent.Impl
         
         public IPositionedPropertyMapToDescriptor Property<TProperty>(Expression<Func<TClass, TProperty>> property)
         {
-            var type = typeof(TClass);
-
             var member = property.Body as MemberExpression;
 
-            if (member == null)
-            {
-                throw new ArgumentException($"Expression {property} refers to a method, not a property.");
-            }
-
             var propInfo = member.Member as PropertyInfo;
-
-            if (propInfo == null)
-            {
-                throw new ArgumentException($"Expression {property} refers to a field, not a property.");
-            }
-
-            if (type != propInfo.ReflectedType && !type.IsSubclassOf(propInfo.ReflectedType))
-            {
-                throw new ArgumentException($"Expresion {property} refers to a property that is not from type {type}.");
-            }
 
             var element = new Element()
             {

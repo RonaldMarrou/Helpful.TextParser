@@ -71,6 +71,7 @@
     <Compile Include="Fluent\DelimitedDescriptorTest.cs" />
     <Compile Include="Fluent\PositionedDescriptorTest.cs" />
     <Compile Include="LineValueExtractor\DelimitedLineValueExtractorTest.cs" />
+    <Compile Include="LineValueExtractor\LineValueExtractorFactoryTest.cs" />
     <Compile Include="LineValueExtractor\PositionedLineValueExtractorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValueSetter\ValueSetterTest.cs" />

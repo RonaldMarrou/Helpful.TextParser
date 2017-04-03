@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Helpful.TextParser.Fluent.Impl;
 using Helpful.TextParser.Interface;
@@ -69,6 +70,16 @@ namespace Helpful.TextParser.Test.Fluent
             sut.Element.ElementType.ShouldBe(ElementType.Tag);
             sut.Element.Tag.ShouldBe(expectedResult);
             sut.Element.Type.ShouldBe(typeof(DelimitedFooClass));
+        }
+
+        [Test]
+        [TestCase(null)]
+        [TestCase("")]
+        public void DelimitedDescriptor_TagIsEmpty_ThrowsArgumentException(string tag)
+        {
+            var sut = new TestDelimitedDescriptor(It.IsAny<string>(), It.IsAny<IParser>());
+
+            Should.Throw<ArgumentException>(() =>  sut.MapTo<DelimitedFooClass>(tag));
         }
 
         [Test]

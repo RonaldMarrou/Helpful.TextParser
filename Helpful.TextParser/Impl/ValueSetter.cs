@@ -12,7 +12,17 @@ namespace Helpful.TextParser.Impl
             {
                 var isGeneric = propertyInfo.PropertyType.IsGenericType;
 
+                if (isGeneric && propertyInfo.PropertyType.GetGenericTypeDefinition() != typeof(Nullable<>))
+                {
+                    return false;
+                }
+
                 var conversionType = isGeneric ? Nullable.GetUnderlyingType(propertyInfo.PropertyType) : propertyInfo.PropertyType;
+
+                if (value == null && isGeneric)
+                {
+                    return true;
+                }
 
                 propertyInfo.SetValue(instance, Convert.ChangeType(value, conversionType));
 

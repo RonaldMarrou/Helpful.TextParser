@@ -198,7 +198,7 @@ namespace Helpful.TextParser.Impl
                 {
                     var propertyValue = lineValueExtractor.Extract(lines[i], propertyElement, element);
 
-                    if (!propertyValue.IsFound || string.IsNullOrEmpty(propertyValue.Value) && propertyElement.Required)
+                    if ((!propertyValue.IsFound || string.IsNullOrEmpty(propertyValue.Value)) && propertyElement.Required)
                     {
                         result.Errors.Add($"Property {propertyElement.Name} is missing at Line {i}.");
                     }

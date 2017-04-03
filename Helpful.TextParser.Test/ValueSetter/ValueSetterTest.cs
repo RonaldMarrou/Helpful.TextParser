@@ -8,6 +8,7 @@ namespace Helpful.TextParser.Test.ValueSetter
     public class ValueSetterTest
     {
         [Test]
+        [TestCase("NullableDateTime", null, true, null)]
         [TestCase("Boolean", "True", true, true)]
         [TestCase("Byte", "254", true, 254)]
         [TestCase("SByte", "120", true, 120)]
@@ -60,6 +61,8 @@ namespace Helpful.TextParser.Test.ValueSetter
 
     public class DummyWithAllProperties
     {
+        public DateTime? NullableDateTime { get; set; }
+
         public DateTime DateTime { get; set; }
 
         public bool Boolean { get; set; }

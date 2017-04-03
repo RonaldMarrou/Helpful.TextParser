@@ -10,7 +10,7 @@ namespace Helpful.TextParser.Impl.LineValueExtractor
         {
             var position = element.Positions["Position"];
 
-            var delimitationString = parentElement == null ? element.Custom["DelimitationString"] : parentElement.Custom["DelimitationString"];
+            var delimitationString = parentElement == null ? element.Custom["DelimitationString"] : parentElement?.Custom["DelimitationString"];
 
             var lineParts = line.Split(new[] {delimitationString}, StringSplitOptions.None);
 

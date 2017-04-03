@@ -7,12 +7,14 @@ namespace Helpful.TextParser.Fluent.Impl
 {
     public class DelimitedDescriptor : IDelimitedDescriptor
     {
-        private readonly Element _element;
-        private readonly IParser _parser;
+        protected readonly Element _element;
+        protected readonly IParser _parser;
 
-        public DelimitedDescriptor(Element element, IParser parser)
+        public DelimitedDescriptor(string delimitationString, IParser parser)
         {
-            _element = element;
+            _element = new Element() { LineValueExtractorType = LineValueExtractorType.DelimitedByString };
+            _element.Custom.Add("DelimitationString", delimitationString);
+
             _parser = parser;
         }
 

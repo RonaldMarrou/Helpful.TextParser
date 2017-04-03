@@ -26,7 +26,7 @@ namespace Helpful.TextParser.Fluent.Impl
         {
             _action = properties;
 
-            var delimitedPropertyDescriptor = new DelimitedPropertyDescriptor<TClass>(_element.Elements);
+            var delimitedPropertyDescriptor = new DelimitedPropertyDescriptor<TClass>(_element);
 
             _action(delimitedPropertyDescriptor);
         }

@@ -1,7 +1,6 @@
 ﻿using Helpful.TextParser.Interface;
 using Helpful.TextParser.Fluent.Impl;
 using Helpful.TextParser.Fluent.Interface;
-using Helpful.TextParser.Model;
 
 namespace Helpful.TextParser.Impl
 {
@@ -16,15 +15,12 @@ namespace Helpful.TextParser.Impl
 
         public IDelimitedDescriptor Delimited(string delimitationString)
         {
-            var element = new Element() {LineValueExtractorType = LineValueExtractorType.DelimitedByString};
-            element.Custom.Add("DelimitationString", delimitationString);
-
-            return new DelimitedDescriptor(element, _parser);
+            return new DelimitedDescriptor(delimitationString, _parser);
         }
 
         public IPositionedDescriptor Positioned()
         {
-            return new PositionedDescriptor(new Element() { LineValueExtractorType = LineValueExtractorType.Positioned }, _parser);
+            return new PositionedDescriptor(_parser);
         }
     }
 }

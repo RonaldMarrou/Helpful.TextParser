@@ -23,7 +23,7 @@ namespace Helpful.TextParser.Fluent.Impl
         {
             _action = properties;
 
-            var positionedPropertyOnlyDescriptor = new PositionedPropertyOnlyDescriptor<TClass>(_element.Elements);
+            var positionedPropertyOnlyDescriptor = new PositionedPropertyOnlyDescriptor<TClass>(_element);
 
             _action(positionedPropertyOnlyDescriptor);
 

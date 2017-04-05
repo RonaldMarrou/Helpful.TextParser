@@ -34,10 +34,5 @@ namespace Helpful.TextParser.Fluent.Impl
         {
             return _parser.Parse<TClass>(_element, content);
         }
-
-        public Result<TClass> Parse(Func<string[]> content)
-        {
-            return _parser.Parse<TClass>(_element, content());
-        }
     }
 }

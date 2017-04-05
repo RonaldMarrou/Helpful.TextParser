@@ -281,6 +281,201 @@ namespace Helpful.TextParser.Test.Parser
         }
 
         [Test]
+        public void Parser_DelimitedWithTagParse_WithErrors()
+        {
+            var sut = new FluentParser(new Impl.Parser(
+                new LineValueExtractorFactory(
+                    new ILineValueExtractor[]
+                    {
+                        new DelimitedLineValueExtractor(),
+                        new PositionedLineValueExtractor()
+                    }), new Impl.ValueSetter()
+                ));
+
+            var parser = sut.Delimited(",").MapTo<ParserFooClass1>("HEADER").Position(0).Properties(
+                properties =>
+                {
+                    properties.Property(x => x.Property1).Position(1).Required();
+                    properties.Property(x => x.Property2).Position(2).Required();
+                    properties.Property(x => x.Property3).Position(3).Required();
+
+                    properties.Property(x => x.Property7).MapTo<ParserFooClass2>("DETAIL").Position(0).Properties(
+                        childProperties =>
+                        {
+                            childProperties.Property(x => x.Property1).Position(1).Required();
+                            childProperties.Property(x => x.Property2).Position(2).Required();
+                            childProperties.Property(x => x.Property3).Position(3).Required();
+
+                            childProperties.Property(x => x.Property7).MapTo<ParserFooClass3>("SUBDETAIL").Position(0).Properties(
+                                grandChildProperties =>
+                                {
+                                    grandChildProperties.Property(x => x.Property1).Position(1).Required();
+                                    grandChildProperties.Property(x => x.Property2).Position(2).Required();
+                                    grandChildProperties.Property(x => x.Property3).Position(3).Required();
+                                });
+                        });
+                });
+
+            var lines = new[]
+            {
+                "HEADER,,PROPERTY2,ABC",
+                "DETAIL,PROPERTY1,PROPERTY2,43.643",
+                "SUBDETAIL,PROPERTY1,PROPERTY2,43.643",
+                "DETAIL,PROPERTY1,,43.643",
+                "SUBDETAIL,PROPERTY1,PROPERTY2,43.643",
+                "SUBDETAIL,PROPERTY1,PROPERTY2,43.643",
+                "HEADER,PROPERTY1,PROPERTY2,43.643",
+                "DETAIL,PROPERTY1,PROPERTY2,43.643",
+                "DETAIL,,PROPERTY2,NOTASTRING",
+                "SUBDETAIL,PROPERTY1,PROPERTY2,43.643",
+                "SUBDETAIL,PROPERTY1,PROPERTY2,SURELY NOT A STRING",
+                "HEADER,,PROPERTY2,43.643",
+                "DETAIL,PROPERTY1,PROPERTY2,43.643",
+                "SUBDETAIL,PROPERTY1,,43.643",
+                "SUBDETAIL,PROPERTY1,PROPERTY2,43.643",
+                "SUBDETAIL,PROPERTY1,PROPERTY2,43.643",
+                "DETAIL,PROPERTY1,PROPERTY2,43.643",
+                "SUBDETAIL,PROPERTY1,PROPERTY2,43.643",
+                "SUBDETAIL,PROPERTY1,PROPERTY2,43.643",
+            };
+
+            var result = parser.Parse(lines);
+
+            result.Errors.Count.ShouldBe(8);
+
+            result.Errors[0].ShouldBe("Property Property1 is missing at Line 0.");
+            result.Errors[1].ShouldBe("Value of Property Property3 is not valid at Line 0.");
+            result.Errors[2].ShouldBe("Property Property2 is missing at Line 3.");
+            result.Errors[3].ShouldBe("Property Property1 is missing at Line 8.");
+            result.Errors[4].ShouldBe("Value of Property Property3 is not valid at Line 8.");
+            result.Errors[5].ShouldBe("Value of Property Property3 is not valid at Line 10.");
+            result.Errors[6].ShouldBe("Property Property1 is missing at Line 11.");
+            result.Errors[7].ShouldBe("Property Property2 is missing at Line 13.");
+        }
+
+        [Test]
+        public void Parser_DelimitedWithTagParse_Success()
+        {
+            var sut = new FluentParser(new Impl.Parser(
+                new LineValueExtractorFactory(
+                    new ILineValueExtractor[]
+                    {
+                        new DelimitedLineValueExtractor(),
+                        new PositionedLineValueExtractor()
+                    }), new Impl.ValueSetter()
+                ));
+
+            var parser = sut.Delimited(",").MapTo<ParserFooClass1>("HEADER").Position(0).Properties(
+                properties =>
+                {
+                    properties.Property(x => x.Property1).Position(1).Required();
+                    properties.Property(x => x.Property2).Position(2).Required();
+                    properties.Property(x => x.Property3).Position(3).Required();
+                    properties.Property(x => x.Property4).Position(4).Required();
+                    properties.Property(x => x.Property5).Position(5).Required();
+                    properties.Property(x => x.Property6).Position(6).Required();
+
+                    properties.Property(x => x.Property7).MapTo<ParserFooClass2>("DETAIL").Position(0).Properties(
+                        childProperties =>
+                        {
+                            childProperties.Property(x => x.Property1).Position(1).Required();
+                            childProperties.Property(x => x.Property2).Position(2).Required();
+                            childProperties.Property(x => x.Property3).Position(3).Required();
+                            childProperties.Property(x => x.Property4).Position(4).Required();
+                            childProperties.Property(x => x.Property5).Position(5).Required();
+                            childProperties.Property(x => x.Property6).Position(6).Required();
+
+                            childProperties.Property(x => x.Property7).MapTo<ParserFooClass3>("SUBDETAIL").Position(0).Properties(
+                                grandChildProperties =>
+                                {
+                                    grandChildProperties.Property(x => x.Property1).Position(1).Required();
+                                    grandChildProperties.Property(x => x.Property2).Position(2).Required();
+                                    grandChildProperties.Property(x => x.Property3).Position(3).Required();
+                                    grandChildProperties.Property(x => x.Property4).Position(4).Required();
+                                    grandChildProperties.Property(x => x.Property5).Position(5).Required();
+                                    grandChildProperties.Property(x => x.Property6).Position(6).Required();
+                                });
+                        });
+                });
+
+            var lines = new[]
+            {
+                "HEADER,HEAD11,HEAD12,80.50,2017-04-02,HEAD14,11",
+                "HEADER,HEAD21,HEAD22,4005.50,2017-04-02,HEAD24,",
+                "DETAIL,DETAIL211,DETAIL221,00505.50,2011-04-01,DETAIL241,55",
+                "DETAIL,DETAIL212,DETAIL222,0484005.500,2012-03-02,DETAIL242,47",
+                "HEADER,HEAD31,HEAD32,105.50,1997-04-02,HEAD34,",
+                "DETAIL,DETAIL311,DETAIL321,5899.88,1911-04-01,DETAIL341,99",
+                "SUBDETAIL,SUBDETAIL3111,SUBDETAIL3211,14409.011,1985-12-03,SUBDETAIL3411,80",
+                "SUBDETAIL,SUBDETAIL3112,SUBDETAIL3212,9.1,1991-11-08,SUBDETAIL3412,80"
+            };
+
+            var result = parser.Parse(lines);
+
+            result.Content[0].Property7.ShouldBeNull();
+            result.Content[0].Property1.ShouldBe("HEAD11");
+            result.Content[0].Property2.ShouldBe("HEAD12");
+            result.Content[0].Property3.ShouldBe((decimal)80.5);
+            result.Content[0].Property4.ShouldBe(new DateTime(2017, 04, 02));
+            result.Content[0].Property5.ShouldBe("HEAD14");
+            result.Content[0].Property6.ShouldBe(11);
+
+            result.Content[1].Property7.Count.ShouldBe(2);
+            result.Content[1].Property1.ShouldBe("HEAD21");
+            result.Content[1].Property2.ShouldBe("HEAD22");
+            result.Content[1].Property3.ShouldBe((decimal)4005.50);
+            result.Content[1].Property4.ShouldBe(new DateTime(2017, 04, 02));
+            result.Content[1].Property5.ShouldBe("HEAD24");
+            result.Content[1].Property6.ShouldBeNull();
+
+            result.Content[1].Property7[0].Property7.ShouldBeNull();
+            result.Content[1].Property7[0].Property1.ShouldBe("DETAIL211");
+            result.Content[1].Property7[0].Property2.ShouldBe("DETAIL221");
+            result.Content[1].Property7[0].Property3.ShouldBe((decimal)505.5);
+            result.Content[1].Property7[0].Property4.ShouldBe(new DateTime(2011, 04, 01));
+            result.Content[1].Property7[0].Property5.ShouldBe("DETAIL241");
+            result.Content[1].Property7[0].Property6.ShouldBe(55);
+
+            result.Content[1].Property7[1].Property7.ShouldBeNull();
+            result.Content[1].Property7[1].Property1.ShouldBe("DETAIL212");
+            result.Content[1].Property7[1].Property2.ShouldBe("DETAIL222");
+            result.Content[1].Property7[1].Property3.ShouldBe((decimal)484005.5);
+            result.Content[1].Property7[1].Property4.ShouldBe(new DateTime(2012, 03, 02));
+            result.Content[1].Property7[1].Property5.ShouldBe("DETAIL242");
+            result.Content[1].Property7[1].Property6.ShouldBe(47);
+
+            result.Content[2].Property7.Count.ShouldBe(1);
+            result.Content[2].Property1.ShouldBe("HEAD31");
+            result.Content[2].Property2.ShouldBe("HEAD32");
+            result.Content[2].Property3.ShouldBe((decimal)105.50);
+            result.Content[2].Property4.ShouldBe(new DateTime(1997, 04, 02));
+            result.Content[2].Property5.ShouldBe("HEAD34");
+            result.Content[2].Property6.ShouldBeNull();
+
+            result.Content[2].Property7[0].Property7.Count.ShouldBe(2);
+            result.Content[2].Property7[0].Property1.ShouldBe("DETAIL311");
+            result.Content[2].Property7[0].Property2.ShouldBe("DETAIL321");
+            result.Content[2].Property7[0].Property3.ShouldBe((decimal)5899.88);
+            result.Content[2].Property7[0].Property4.ShouldBe(new DateTime(1911, 04, 01));
+            result.Content[2].Property7[0].Property5.ShouldBe("DETAIL341");
+            result.Content[2].Property7[0].Property6.ShouldBe(99);
+
+            result.Content[2].Property7[0].Property7[0].Property1.ShouldBe("SUBDETAIL3111");
+            result.Content[2].Property7[0].Property7[0].Property2.ShouldBe("SUBDETAIL3211");
+            result.Content[2].Property7[0].Property7[0].Property3.ShouldBe((decimal)14409.011);
+            result.Content[2].Property7[0].Property7[0].Property4.ShouldBe(new DateTime(1985, 12, 03));
+            result.Content[2].Property7[0].Property7[0].Property5.ShouldBe("SUBDETAIL3411");
+            result.Content[2].Property7[0].Property7[0].Property6.ShouldBe(80);
+
+            result.Content[2].Property7[0].Property7[1].Property1.ShouldBe("SUBDETAIL3112");
+            result.Content[2].Property7[0].Property7[1].Property2.ShouldBe("SUBDETAIL3212");
+            result.Content[2].Property7[0].Property7[1].Property3.ShouldBe((decimal)9.1);
+            result.Content[2].Property7[0].Property7[1].Property4.ShouldBe(new DateTime(1991, 11, 08));
+            result.Content[2].Property7[0].Property7[1].Property5.ShouldBe("SUBDETAIL3412");
+            result.Content[2].Property7[0].Property7[1].Property6.ShouldBe(80);
+        }
+
+        [Test]
         public void Parser_PositionedWithoutTagParse_WithErrors()
         {
             var sut = new FluentParser(new Impl.Parser(

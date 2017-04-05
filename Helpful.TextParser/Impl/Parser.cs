@@ -50,11 +50,11 @@ namespace Helpful.TextParser.Impl
                     return;
                 }
 
-                if (!tagValue.Value.Equals(element.Tag))
+                if (tagValue.Value != element.Tag)
                 {
                     var tagElement = (from childTag in element.Elements.Where(x => x.ElementType == ElementType.Tag)
                                       let childTagValue = lineValueExtractor.Extract(lines[i], childTag)
-                                      where childTagValue.IsFound && childTagValue.Value.Equals(childTag.Tag)
+                                      where childTagValue.IsFound && childTagValue.Value == childTag.Tag
                                       select childTag).FirstOrDefault();
 
                     if (tagElement != null)
@@ -118,7 +118,7 @@ namespace Helpful.TextParser.Impl
 
                 var parentElementTagValue = lineValueExtractor.Extract(lines[i], parentElement);
 
-                if (parentElementTagValue.IsFound && parentElementTagValue.Value.Equals(parentElement.Tag))
+                if (parentElementTagValue.IsFound && parentElementTagValue.Value == parentElement.Tag)
                 {
                     linePosition--;
 
@@ -136,11 +136,11 @@ namespace Helpful.TextParser.Impl
                     return;
                 }
 
-                if (!tagValue.Value.Equals(element.Tag))
+                if (tagValue.Value != element.Tag)
                 {
                     var tagElement = (from childTag in element.Elements.Where(x => x.ElementType == ElementType.Tag)
                                       let childTagValue = lineValueExtractor.Extract(lines[i], childTag)
-                                      where childTagValue.IsFound && childTagValue.Value.Equals(childTag.Tag)
+                                      where childTagValue.IsFound && childTagValue.Value == childTag.Tag
                                       select childTag).FirstOrDefault();
 
                     if (tagElement != null)

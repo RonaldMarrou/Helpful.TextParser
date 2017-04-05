@@ -26,7 +26,7 @@ namespace Helpful.TextParser.Impl.LineValueExtractor
             return new LineValue()
             {
                 IsFound = true,
-                Value = lineParts[position]
+                Value = string.IsNullOrEmpty(lineParts[position]) ? null : lineParts[position]
             };
         }
 

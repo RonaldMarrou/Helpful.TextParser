@@ -11,7 +11,7 @@ namespace Helpful.TextParser.Test.LineValueExtractor
         [TestCase("POSITION0,POSITION1,POSITION2", ",", 2, true, "POSITION2")]
         [TestCase("POSITION0,POSITION1,POSITION2", ",", 1, true, "POSITION1")]
         [TestCase("POSITION0,POSITION1,POSITION2", ",", 4, false, null)]
-        [TestCase("POSITION0,POSITION1,POSITION2,,", ",", 4, true, "")]
+        [TestCase("POSITION0,POSITION1,POSITION2,,", ",", 4, true, null)]
         public void Extract_WithLines_ReturnsResult(string line, string delimitationString, int position, bool isFound, string expectedValue)
         {
             var element = new Element();
@@ -31,7 +31,7 @@ namespace Helpful.TextParser.Test.LineValueExtractor
         [TestCase("POSITION0,POSITION1,POSITION2", ",", 2, true, "POSITION2")]
         [TestCase("POSITION0,POSITION1,POSITION2", ",", 1, true, "POSITION1")]
         [TestCase("POSITION0,POSITION1,POSITION2", ",", 4, false, null)]
-        [TestCase("POSITION0,POSITION1,POSITION2,,", ",", 4, true, "")]
+        [TestCase("POSITION0,POSITION1,POSITION2,,", ",", 4, true, null)]
         public void Extract_WithLinesAndParentElement_ReturnsResult(string line, string delimitationString, int position, bool isFound, string expectedValue)
         {
             var element = new Element();

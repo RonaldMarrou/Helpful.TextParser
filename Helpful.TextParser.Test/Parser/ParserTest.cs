@@ -373,7 +373,7 @@ namespace Helpful.TextParser.Test.Parser
                     properties.Property(x => x.Property3).Position(3).Required();
                     properties.Property(x => x.Property4).Position(4).Required();
                     properties.Property(x => x.Property5).Position(5).Required();
-                    properties.Property(x => x.Property6).Position(6).Required();
+                    properties.Property(x => x.Property6).Position(6).NotRequired();
 
                     properties.Property(x => x.Property7).MapTo<ParserFooClass2>("DETAIL").Position(0).Properties(
                         childProperties =>
@@ -383,7 +383,7 @@ namespace Helpful.TextParser.Test.Parser
                             childProperties.Property(x => x.Property3).Position(3).Required();
                             childProperties.Property(x => x.Property4).Position(4).Required();
                             childProperties.Property(x => x.Property5).Position(5).Required();
-                            childProperties.Property(x => x.Property6).Position(6).Required();
+                            childProperties.Property(x => x.Property6).Position(6).NotRequired();
 
                             childProperties.Property(x => x.Property7).MapTo<ParserFooClass3>("SUBDETAIL").Position(0).Properties(
                                 grandChildProperties =>
@@ -393,7 +393,7 @@ namespace Helpful.TextParser.Test.Parser
                                     grandChildProperties.Property(x => x.Property3).Position(3).Required();
                                     grandChildProperties.Property(x => x.Property4).Position(4).Required();
                                     grandChildProperties.Property(x => x.Property5).Position(5).Required();
-                                    grandChildProperties.Property(x => x.Property6).Position(6).Required();
+                                    grandChildProperties.Property(x => x.Property6).Position(6).NotRequired();
                                 });
                         });
                 });
@@ -411,6 +411,8 @@ namespace Helpful.TextParser.Test.Parser
             };
 
             var result = parser.Parse(lines);
+
+            result.Errors.Count.ShouldBe(0);
 
             result.Content[0].Property7.ShouldBeNull();
             result.Content[0].Property1.ShouldBe("HEAD11");
@@ -583,6 +585,365 @@ namespace Helpful.TextParser.Test.Parser
             result.Content[4].Property4.ShouldBe(new DateTime(1987, 01, 01));
             result.Content[4].Property5.ShouldBe("LI");
             result.Content[4].Property6.ShouldBeNull();
+        }
+
+        [Test]
+        [TestCase(0, "")]
+        [TestCase(1, "AAPROPERTY1PROPERTY243.643")]
+        [TestCase(2, "BBPROPERTY1PROPERTY243.643")]
+        [TestCase(3, "  PROPERTY1PROPERTY243.643")]
+        public void Parser_PositionedWithTagParse_TagNotValid(int lineToSet, string value)
+        {
+            var sut = new FluentParser(new Impl.Parser(
+                new LineValueExtractorFactory(
+                    new ILineValueExtractor[]
+                    {
+                        new DelimitedLineValueExtractor(),
+                        new PositionedLineValueExtractor()
+                    }), new Impl.ValueSetter()
+                ));
+
+            var parser = sut.Positioned().MapTo<ParserFooClass1>("HH").Position(0, 2).Properties(
+                properties =>
+                {
+                    properties.Property(x => x.Property1).Position(2, 11).Required();
+                    properties.Property(x => x.Property2).Position(11, 19).Required();
+                    properties.Property(x => x.Property3).Position(19, 26).Required();
+                });
+
+            var lines = new[]
+            {
+                "HHPROPERTY1PROPERTY243.643",
+                "HHPROPERTY1PROPERTY243.643",
+                "HHPROPERTY1PROPERTY243.643",
+                "HHPROPERTY1PROPERTY243.643",
+            };
+
+            lines[lineToSet] = value;
+
+            var result = parser.Parse(lines);
+
+            result.Errors.Count.ShouldBe(1);
+
+            result.Errors[0].ShouldBe($"Line {lineToSet} does not contain any valid tag.");
+        }
+
+        [Test]
+        [TestCase(1, "")]
+        [TestCase(5, "AAPROPERTY1PROPERTY243.643")]
+        [TestCase(7, "BBPROPERTY1PROPERTY243.643")]
+        [TestCase(8, "  PROPERTY1PROPERTY243.643")]
+        public void Parser_PositionedWithTagParse_ChildrenTagNotValid(int lineToSet, string value)
+        {
+            var sut = new FluentParser(new Impl.Parser(
+                new LineValueExtractorFactory(
+                    new ILineValueExtractor[]
+                    {
+                        new DelimitedLineValueExtractor(),
+                        new PositionedLineValueExtractor()
+                    }), new Impl.ValueSetter()
+                ));
+
+            var parser = sut.Positioned().MapTo<ParserFooClass1>("HH").Position(0, 2).Properties(
+                properties =>
+                {
+                    properties.Property(x => x.Property1).Position(2, 11).Required();
+                    properties.Property(x => x.Property2).Position(11, 19).Required();
+                    properties.Property(x => x.Property3).Position(19, 26).Required();
+
+                    properties.Property(x => x.Property7).MapTo<ParserFooClass2>("DD").Position(0, 2).Properties(
+                        childProperties =>
+                        {
+                            childProperties.Property(x => x.Property1).Position(2, 11).Required();
+                            childProperties.Property(x => x.Property2).Position(11, 19).Required();
+                            childProperties.Property(x => x.Property3).Position(19, 26).Required();
+                        });
+                });
+
+            var lines = new[]
+            {
+                "HHPROPERTY1PROPERTY243.643",
+                "DDPROPERTY1PROPERTY243.643",
+                "DDPROPERTY1PROPERTY243.643",
+                "DDPROPERTY1PROPERTY243.643",
+                "DDPROPERTY1PROPERTY243.643",
+                "DDPROPERTY1PROPERTY243.643",
+                "HHPROPERTY1PROPERTY243.643",
+                "DDPROPERTY1PROPERTY243.643",
+                "DDPROPERTY1PROPERTY243.643",
+            };
+
+            lines[lineToSet] = value;
+
+            var result = parser.Parse(lines);
+
+            result.Errors.Count.ShouldBe(1);
+
+            result.Errors[0].ShouldBe($"Line {lineToSet} does not contain any valid tag.");
+        }
+
+        [Test]
+        [TestCase(3, "")]
+        [TestCase(5, "AAPROPERTY1PROPERTY243.643")]
+        [TestCase(6, "CCPROPERTY1PROPERTY243.643")]
+        [TestCase(17, "  PROPERTY1PROPERTY243.643")]
+        public void Parser_PositionedWithTagParse_GrandChildrenTagNotValid(int lineToSet, string value)
+        {
+            var sut = new FluentParser(new Impl.Parser(
+                new LineValueExtractorFactory(
+                    new ILineValueExtractor[]
+                    {
+                        new DelimitedLineValueExtractor(),
+                        new PositionedLineValueExtractor()
+                    }), new Impl.ValueSetter()
+                ));
+
+            var parser = sut.Positioned().MapTo<ParserFooClass1>("HH").Position(0, 2).Properties(
+                properties =>
+                {
+                    properties.Property(x => x.Property1).Position(2, 11).Required();
+                    properties.Property(x => x.Property2).Position(11, 19).Required();
+                    properties.Property(x => x.Property3).Position(19, 26).Required();
+
+                    properties.Property(x => x.Property7).MapTo<ParserFooClass2>("DD").Position(0, 2).Properties(
+                        childProperties =>
+                        {
+                            childProperties.Property(x => x.Property1).Position(2, 11).Required();
+                            childProperties.Property(x => x.Property2).Position(11, 19).Required();
+                            childProperties.Property(x => x.Property3).Position(19, 26).Required();
+
+                            childProperties.Property(x => x.Property7).MapTo<ParserFooClass3>("SD").Position(0, 2).Properties(
+                                grandChildProperties =>
+                                {
+                                    grandChildProperties.Property(x => x.Property1).Position(2, 11).Required();
+                                    grandChildProperties.Property(x => x.Property2).Position(11, 19).Required();
+                                    grandChildProperties.Property(x => x.Property3).Position(19, 26).Required();
+                                });
+                        });
+                });
+
+            var lines = new[]
+            {
+                "HHPROPERTY1PROPERTY243.643",
+                "DDPROPERTY1PROPERTY243.643",
+                "SDPROPERTY1PROPERTY243.643",
+                "DDPROPERTY1PROPERTY243.643",
+                "SDPROPERTY1PROPERTY243.643",
+                "SDPROPERTY1PROPERTY243.643",
+                "HHPROPERTY1PROPERTY243.643",
+                "DDPROPERTY1PROPERTY243.643",
+                "DDPROPERTY1PROPERTY243.643",
+                "SDPROPERTY1PROPERTY243.643",
+                "SDPROPERTY1PROPERTY243.643",
+                "HHPROPERTY1PROPERTY243.643",
+                "DDPROPERTY1PROPERTY243.643",
+                "SDPROPERTY1PROPERTY243.643",
+                "SDPROPERTY1PROPERTY243.643",
+                "SDPROPERTY1PROPERTY243.643",
+                "DDPROPERTY1PROPERTY243.643",
+                "SDPROPERTY1PROPERTY243.643",
+                "SDPROPERTY1PROPERTY243.643",
+            };
+
+            lines[lineToSet] = value;
+
+            var result = parser.Parse(lines);
+
+            result.Errors.Count.ShouldBe(1);
+
+            result.Errors[0].ShouldBe($"Line {lineToSet} does not contain any valid tag.");
+        }
+
+        [Test]
+        public void Parser_PositionedWithTagParse_WithErrors()
+        {
+            var sut = new FluentParser(new Impl.Parser(
+                new LineValueExtractorFactory(
+                    new ILineValueExtractor[]
+                    {
+                        new DelimitedLineValueExtractor(),
+                        new PositionedLineValueExtractor()
+                    }), new Impl.ValueSetter()
+                ));
+
+            var parser = sut.Positioned().MapTo<ParserFooClass1>("HH").Position(0, 2).Properties(
+                properties =>
+                {
+                    properties.Property(x => x.Property1).Position(2, 11).Required();
+                    properties.Property(x => x.Property2).Position(11, 19).Required();
+                    properties.Property(x => x.Property3).Position(19, 26).Required();
+
+                    properties.Property(x => x.Property7).MapTo<ParserFooClass2>("DD").Position(0, 2).Properties(
+                        childProperties =>
+                        {
+                            childProperties.Property(x => x.Property1).Position(2, 11).Required();
+                            childProperties.Property(x => x.Property2).Position(11, 19).Required();
+                            childProperties.Property(x => x.Property3).Position(19, 26).Required();
+
+                            childProperties.Property(x => x.Property7).MapTo<ParserFooClass3>("SD").Position(0, 2).Properties(
+                                grandChildProperties =>
+                                {
+                                    grandChildProperties.Property(x => x.Property1).Position(2, 11).Required();
+                                    grandChildProperties.Property(x => x.Property2).Position(11, 19).Required();
+                                    grandChildProperties.Property(x => x.Property3).Position(19, 26).Required();
+                                });
+                        });
+                });
+
+            var lines = new[]
+            {
+                "HH         PROPERTY2ABC",
+                "DDPROPERTY1PROPERTY243.643",
+                "SDPROPERTY1PROPERTY243.643",
+                "DDPROPERTY1         43.643",
+                "SDPROPERTY1PROPERTY243.643",
+                "SDPROPERTY1PROPERTY243.643",
+                "HHPROPERTY1PROPERTY243.643",
+                "DDPROPERTY1PROPERTY243.643",
+                "DD,PROPERTY         AABBC",
+                "SDPROPERTY1PROPERTY243.643",
+                "SDPROPERTY1PROPERTY2NOTAST",
+                "HH,PROPERTY         43.643",
+                "DDPROPERTY1PROPERTY243.643",
+                "SDPROPERTY1         43.643",
+                "SDPROPERTY1PROPERTY2,43.643",
+                "SDPROPERTY1PROPERTY2,43.643",
+                "DDPROPERTY1PROPERTY2,43.643",
+                "SDPROPERTY1PROPERTY2,43.643",
+                "SDPROPERTY1PROPERTY2,43.643",
+            };
+
+            var result = parser.Parse(lines);
+
+            result.Errors.Count.ShouldBe(3);
+
+            result.Errors[0].ShouldBe("Value of Property Property3 is not valid at Line 0.");
+            result.Errors[1].ShouldBe("Value of Property Property3 is not valid at Line 8.");
+            result.Errors[2].ShouldBe("Value of Property Property3 is not valid at Line 10.");
+        }
+
+        [Test]
+        public void Parser_PositionedWithTagParse_Success()
+        {
+            var sut = new FluentParser(new Impl.Parser(
+                new LineValueExtractorFactory(
+                    new ILineValueExtractor[]
+                    {
+                        new DelimitedLineValueExtractor(),
+                        new PositionedLineValueExtractor()
+                    }), new Impl.ValueSetter()
+                ));
+
+            var parser = sut.Positioned().MapTo<ParserFooClass1>("HH").Position(0, 2).Properties(
+                properties =>
+                {
+                    properties.Property(x => x.Property1).Position(2, 8).Required();
+                    properties.Property(x => x.Property2).Position(8, 14).Required();
+                    properties.Property(x => x.Property3).Position(14, 21).Required();
+                    properties.Property(x => x.Property4).Position(21, 31).Required();
+                    properties.Property(x => x.Property5).Position(31, 37).Required();
+                    properties.Property(x => x.Property6).Position(37, 39).NotRequired();
+
+                    properties.Property(x => x.Property7).MapTo<ParserFooClass2>("DD").Position(0, 2).Properties(
+                        childProperties =>
+                        {
+                            childProperties.Property(x => x.Property1).Position(2, 11).Required();
+                            childProperties.Property(x => x.Property2).Position(11, 20).Required();
+                            childProperties.Property(x => x.Property3).Position(20, 31).Required();
+                            childProperties.Property(x => x.Property4).Position(31, 41).Required();
+                            childProperties.Property(x => x.Property5).Position(41, 50).Required();
+                            childProperties.Property(x => x.Property6).Position(50, 52).NotRequired();
+
+                            childProperties.Property(x => x.Property7).MapTo<ParserFooClass3>("SD").Position(0, 2).Properties(
+                                grandChildProperties =>
+                                {
+                                    grandChildProperties.Property(x => x.Property1).Position(2, 15).Required();
+                                    grandChildProperties.Property(x => x.Property2).Position(15, 28).Required();
+                                    grandChildProperties.Property(x => x.Property3).Position(28, 37).Required();
+                                    grandChildProperties.Property(x => x.Property4).Position(37, 47).Required();
+                                    grandChildProperties.Property(x => x.Property5).Position(47, 60).Required();
+                                    grandChildProperties.Property(x => x.Property6).Position(60, 62).NotRequired();
+                                });
+                        });
+                });
+
+            var lines = new[]
+            {
+                "HHHEAD11HEAD120080.502017-04-02HEAD1411",
+                "HHHEAD21HEAD224005.502017-04-02HEAD24",
+                "DDDETAIL211DETAIL2210000505.5002011-04-01DETAIL24155",
+                "DDDETAIL212DETAIL2220484005.5002012-03-02DETAIL24247",
+                "HHHEAD31HEAD320105.501997-04-02HEAD34",
+                "DDDETAIL311DETAIL3210005899.8811911-04-01DETAIL34199",
+                "SDSUBDETAIL3111SUBDETAIL321114409.0111985-12-03SUBDETAIL341180",
+                "SDSUBDETAIL3112SUBDETAIL321200009.1001991-11-08SUBDETAIL341280"
+            };
+
+            var result = parser.Parse(lines);
+
+            result.Errors.Count.ShouldBe(0);
+
+            result.Content[0].Property7.ShouldBeNull();
+            result.Content[0].Property1.ShouldBe("HEAD11");
+            result.Content[0].Property2.ShouldBe("HEAD12");
+            result.Content[0].Property3.ShouldBe((decimal)80.5);
+            result.Content[0].Property4.ShouldBe(new DateTime(2017, 04, 02));
+            result.Content[0].Property5.ShouldBe("HEAD14");
+            result.Content[0].Property6.ShouldBe(11);
+
+            result.Content[1].Property7.Count.ShouldBe(2);
+            result.Content[1].Property1.ShouldBe("HEAD21");
+            result.Content[1].Property2.ShouldBe("HEAD22");
+            result.Content[1].Property3.ShouldBe((decimal)4005.50);
+            result.Content[1].Property4.ShouldBe(new DateTime(2017, 04, 02));
+            result.Content[1].Property5.ShouldBe("HEAD24");
+            result.Content[1].Property6.ShouldBeNull();
+
+            result.Content[1].Property7[0].Property7.ShouldBeNull();
+            result.Content[1].Property7[0].Property1.ShouldBe("DETAIL211");
+            result.Content[1].Property7[0].Property2.ShouldBe("DETAIL221");
+            result.Content[1].Property7[0].Property3.ShouldBe((decimal)505.5);
+            result.Content[1].Property7[0].Property4.ShouldBe(new DateTime(2011, 04, 01));
+            result.Content[1].Property7[0].Property5.ShouldBe("DETAIL241");
+            result.Content[1].Property7[0].Property6.ShouldBe(55);
+
+            result.Content[1].Property7[1].Property7.ShouldBeNull();
+            result.Content[1].Property7[1].Property1.ShouldBe("DETAIL212");
+            result.Content[1].Property7[1].Property2.ShouldBe("DETAIL222");
+            result.Content[1].Property7[1].Property3.ShouldBe((decimal)484005.5);
+            result.Content[1].Property7[1].Property4.ShouldBe(new DateTime(2012, 03, 02));
+            result.Content[1].Property7[1].Property5.ShouldBe("DETAIL242");
+            result.Content[1].Property7[1].Property6.ShouldBe(47);
+
+            result.Content[2].Property7.Count.ShouldBe(1);
+            result.Content[2].Property1.ShouldBe("HEAD31");
+            result.Content[2].Property2.ShouldBe("HEAD32");
+            result.Content[2].Property3.ShouldBe((decimal)105.50);
+            result.Content[2].Property4.ShouldBe(new DateTime(1997, 04, 02));
+            result.Content[2].Property5.ShouldBe("HEAD34");
+            result.Content[2].Property6.ShouldBeNull();
+
+            result.Content[2].Property7[0].Property7.Count.ShouldBe(2);
+            result.Content[2].Property7[0].Property1.ShouldBe("DETAIL311");
+            result.Content[2].Property7[0].Property2.ShouldBe("DETAIL321");
+            result.Content[2].Property7[0].Property3.ShouldBe((decimal)5899.881);
+            result.Content[2].Property7[0].Property4.ShouldBe(new DateTime(1911, 04, 01));
+            result.Content[2].Property7[0].Property5.ShouldBe("DETAIL341");
+            result.Content[2].Property7[0].Property6.ShouldBe(99);
+
+            result.Content[2].Property7[0].Property7[0].Property1.ShouldBe("SUBDETAIL3111");
+            result.Content[2].Property7[0].Property7[0].Property2.ShouldBe("SUBDETAIL3211");
+            result.Content[2].Property7[0].Property7[0].Property3.ShouldBe((decimal)14409.011);
+            result.Content[2].Property7[0].Property7[0].Property4.ShouldBe(new DateTime(1985, 12, 03));
+            result.Content[2].Property7[0].Property7[0].Property5.ShouldBe("SUBDETAIL3411");
+            result.Content[2].Property7[0].Property7[0].Property6.ShouldBe(80);
+
+            result.Content[2].Property7[0].Property7[1].Property1.ShouldBe("SUBDETAIL3112");
+            result.Content[2].Property7[0].Property7[1].Property2.ShouldBe("SUBDETAIL3212");
+            result.Content[2].Property7[0].Property7[1].Property3.ShouldBe((decimal)9.1);
+            result.Content[2].Property7[0].Property7[1].Property4.ShouldBe(new DateTime(1991, 11, 08));
+            result.Content[2].Property7[0].Property7[1].Property5.ShouldBe("SUBDETAIL3412");
+            result.Content[2].Property7[0].Property7[1].Property6.ShouldBe(80);
         }
     }
 

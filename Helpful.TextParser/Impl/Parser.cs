@@ -59,7 +59,14 @@ namespace Helpful.TextParser.Impl
 
                     if (tagElement != null)
                     {
-                        ParseWithTag(element, tagElement, result.Content.Last(), result, lines, lineValueExtractor, ref i, ref continueParsing);
+                        var listPropertyInfo = result.Content.Last().GetType().GetProperty(tagElement.Name);
+
+                        if (listPropertyInfo.GetValue(result.Content.Last()) == null)
+                        {
+                            listPropertyInfo.SetValue(result.Content.Last(), Activator.CreateInstance(listPropertyInfo.PropertyType));
+                        }
+
+                        ParseWithTag(element, tagElement, result.Content.Last(), listPropertyInfo, result, lines, lineValueExtractor, ref i, ref continueParsing);
 
                         if (!continueParsing)
                         {
@@ -103,7 +110,7 @@ namespace Helpful.TextParser.Impl
             }
         }
 
-        private void ParseWithTag<T>(Element parentElement, Element element, object parentInstance, Result<T> result, string[] lines, ILineValueExtractor lineValueExtractor, ref int linePosition, ref bool continueParsing)
+        private void ParseWithTag<T>(Element parentElement, Element element, object parentInstance, PropertyInfo listPropertyInfo, Result<T> result, string[] lines, ILineValueExtractor lineValueExtractor, ref int linePosition, ref bool continueParsing)
         {
             for (var i = linePosition; i < lines.Length; i++)
             {
@@ -138,24 +145,28 @@ namespace Helpful.TextParser.Impl
 
                     if (tagElement != null)
                     {
-                        ParseWithTag(element, tagElement, result.Content.Last(), result, lines, lineValueExtractor, ref linePosition, ref continueParsing);
+                        var lastMethod = typeof(Enumerable).GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault(x => x.Name == "Last" && x.GetParameters().Count() == 1).MakeGenericMethod(element.Type);
+
+                        var lastInstance = lastMethod.Invoke(null, new[] { listPropertyInfo.GetValue(parentInstance) });
+
+                        var childListPropertyInfo = lastInstance.GetType().GetProperty(tagElement.Name);
+
+                        if (childListPropertyInfo.GetValue(lastInstance) == null)
+                        {
+                            childListPropertyInfo.SetValue(lastInstance, Activator.CreateInstance(childListPropertyInfo.PropertyType));
+                        }
+
+                        ParseWithTag(element, tagElement, lastInstance, childListPropertyInfo, result, lines, lineValueExtractor, ref linePosition, ref continueParsing);
+
+                        return;
                     }
 
-                    result.Errors.Add($"Line {i} does not contain any valid tag.");
-
-                    continueParsing = false;
+                    linePosition--;
 
                     return;
                 }
 
                 var newObject = Activator.CreateInstance(element.Type);
-
-                var listPropertyInfo = parentInstance.GetType().GetProperty(element.Name);
-
-                if (listPropertyInfo.GetValue(parentInstance) == null)
-                {
-                    listPropertyInfo.SetValue(parentInstance, Activator.CreateInstance(listPropertyInfo.PropertyType));
-                }
 
                 listPropertyInfo.PropertyType.GetMethod("Add").Invoke(listPropertyInfo.GetValue(parentInstance), new[] { newObject });
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Helpful.TextParser.Impl;
 using Helpful.TextParser.Impl.LineValueExtractor;
 using Helpful.TextParser.Interface;
@@ -113,6 +114,173 @@ namespace Helpful.TextParser.Test.Parser
         }
 
         [Test]
+        [TestCase(0,"")]
+        [TestCase(1, "NOTVALID,PROPERTY1,PROPERTY2,43.643")]
+        [TestCase(2, "ANOTHERNOTVALID,PROPERTY1,PROPERTY2,43.643")]
+        [TestCase(3, ",PROPERTY1,PROPERTY2,43.643")]
+        public void Parser_DelimitedWithTagParse_TagNotValid(int lineToSet, string value)
+        {
+            var sut = new FluentParser(new Impl.Parser(
+                new LineValueExtractorFactory(
+                    new ILineValueExtractor[]
+                    {
+                        new DelimitedLineValueExtractor(),
+                        new PositionedLineValueExtractor()
+                    }), new Impl.ValueSetter()
+                ));
+
+            var parser = sut.Delimited(",").MapTo<ParserFooClass1>("HEADER").Position(0).Properties(
+                properties =>
+                {
+                    properties.Property(x => x.Property1).Position(1).Required();
+                    properties.Property(x => x.Property2).Position(2).Required();
+                    properties.Property(x => x.Property3).Position(3).Required();
+                });
+
+            var lines = new[]
+            {
+                "HEADER,PROPERTY1,PROPERTY2,43.643",
+                "HEADER,PROPERTY1,PROPERTY2,43.643",
+                "HEADER,PROPERTY1,PROPERTY2,43.643",
+                "HEADER,PROPERTY1,PROPERTY2,43.643",
+            };
+
+            lines[lineToSet] = value;
+
+            var result = parser.Parse(lines);
+
+            result.Errors.Count.ShouldBe(1);
+
+            result.Errors[0].ShouldBe($"Line {lineToSet} does not contain any valid tag.");
+        }
+
+        [Test]
+        [TestCase(1, "")]
+        [TestCase(5, "NOTVALID,PROPERTY1,PROPERTY2,43.643")]
+        [TestCase(7, "ANOTHERNOTVALID,PROPERTY1,PROPERTY2,43.643")]
+        [TestCase(8, ",PROPERTY1,PROPERTY2,43.643")]
+        public void Parser_DelimitedWithTagParse_ChildrenTagNotValid(int lineToSet, string value)
+        {
+            var sut = new FluentParser(new Impl.Parser(
+                new LineValueExtractorFactory(
+                    new ILineValueExtractor[]
+                    {
+                        new DelimitedLineValueExtractor(),
+                        new PositionedLineValueExtractor()
+                    }), new Impl.ValueSetter()
+                ));
+
+            var parser = sut.Delimited(",").MapTo<ParserFooClass1>("HEADER").Position(0).Properties(
+                properties =>
+                {
+                    properties.Property(x => x.Property1).Position(1).Required();
+                    properties.Property(x => x.Property2).Position(2).Required();
+                    properties.Property(x => x.Property3).Position(3).Required();
+
+                    properties.Property(x => x.Property7).MapTo<ParserFooClass2>("DETAIL").Position(0).Properties(
+                        childProperties =>
+                        {
+                            childProperties.Property(x => x.Property1).Position(1).Required();
+                            childProperties.Property(x => x.Property2).Position(2).Required();
+                            childProperties.Property(x => x.Property3).Position(3).Required();
+                        });
+                });
+
+            var lines = new[]
+            {
+                "HEADER,PROPERTY1,PROPERTY2,43.643",
+                "DETAIL,PROPERTY1,PROPERTY2,43.643",
+                "DETAIL,PROPERTY1,PROPERTY2,43.643",
+                "HEADER,PROPERTY1,PROPERTY2,43.643",
+                "DETAIL,PROPERTY1,PROPERTY2,43.643",
+                "DETAIL,PROPERTY1,PROPERTY2,43.643",
+                "HEADER,PROPERTY1,PROPERTY2,43.643",
+                "DETAIL,PROPERTY1,PROPERTY2,43.643",
+                "DETAIL,PROPERTY1,PROPERTY2,43.643",
+            };
+
+            lines[lineToSet] = value;
+
+            var result = parser.Parse(lines);
+
+            result.Errors.Count.ShouldBe(1);
+
+            result.Errors[0].ShouldBe($"Line {lineToSet} does not contain any valid tag.");
+        }
+
+        [Test]
+        [TestCase(3, "")]
+        [TestCase(5, "NOTVALID,PROPERTY1,PROPERTY2,43.643")]
+        [TestCase(6, "ANOTHERNOTVALID,PROPERTY1,PROPERTY2,43.643")]
+        [TestCase(17, ",PROPERTY1,PROPERTY2,43.643")]
+        public void Parser_DelimitedWithTagParse_GrandChildrenTagNotValid(int lineToSet, string value)
+        {
+            var sut = new FluentParser(new Impl.Parser(
+                new LineValueExtractorFactory(
+                    new ILineValueExtractor[]
+                    {
+                        new DelimitedLineValueExtractor(),
+                        new PositionedLineValueExtractor()
+                    }), new Impl.ValueSetter()
+                ));
+
+            var parser = sut.Delimited(",").MapTo<ParserFooClass1>("HEADER").Position(0).Properties(
+                properties =>
+                {
+                    properties.Property(x => x.Property1).Position(1).Required();
+                    properties.Property(x => x.Property2).Position(2).Required();
+                    properties.Property(x => x.Property3).Position(3).Required();
+
+                    properties.Property(x => x.Property7).MapTo<ParserFooClass2>("DETAIL").Position(0).Properties(
+                        childProperties =>
+                        {
+                            childProperties.Property(x => x.Property1).Position(1).Required();
+                            childProperties.Property(x => x.Property2).Position(2).Required();
+                            childProperties.Property(x => x.Property3).Position(3).Required();
+
+                            childProperties.Property(x => x.Property7).MapTo<ParserFooClass3>("SUBDETAIL").Position(0).Properties(
+                                grandChildProperties =>
+                                {
+                                    grandChildProperties.Property(x => x.Property1).Position(1).Required();
+                                    grandChildProperties.Property(x => x.Property2).Position(2).Required();
+                                    grandChildProperties.Property(x => x.Property3).Position(3).Required();
+                                });
+                        });
+                });
+
+            var lines = new[]
+            {
+                "HEADER,PROPERTY1,PROPERTY2,43.643",
+                "DETAIL,PROPERTY1,PROPERTY2,43.643",
+                "SUBDETAIL,PROPERTY1,PROPERTY2,43.643",
+                "DETAIL,PROPERTY1,PROPERTY2,43.643",
+                "SUBDETAIL,PROPERTY1,PROPERTY2,43.643",
+                "SUBDETAIL,PROPERTY1,PROPERTY2,43.643",
+                "HEADER,PROPERTY1,PROPERTY2,43.643",
+                "DETAIL,PROPERTY1,PROPERTY2,43.643",
+                "DETAIL,PROPERTY1,PROPERTY2,43.643",
+                "SUBDETAIL,PROPERTY1,PROPERTY2,43.643",
+                "SUBDETAIL,PROPERTY1,PROPERTY2,43.643",
+                "HEADER,PROPERTY1,PROPERTY2,43.643",
+                "DETAIL,PROPERTY1,PROPERTY2,43.643",
+                "SUBDETAIL,PROPERTY1,PROPERTY2,43.643",
+                "SUBDETAIL,PROPERTY1,PROPERTY2,43.643",
+                "SUBDETAIL,PROPERTY1,PROPERTY2,43.643",
+                "DETAIL,PROPERTY1,PROPERTY2,43.643",
+                "SUBDETAIL,PROPERTY1,PROPERTY2,43.643",
+                "SUBDETAIL,PROPERTY1,PROPERTY2,43.643",
+            };
+
+            lines[lineToSet] = value;
+
+            var result = parser.Parse(lines);
+
+            result.Errors.Count.ShouldBe(1);
+
+            result.Errors[0].ShouldBe($"Line {lineToSet} does not contain any valid tag.");
+        }
+
+        [Test]
         public void Parser_PositionedWithoutTagParse_WithErrors()
         {
             var sut = new FluentParser(new Impl.Parser(
@@ -224,6 +392,40 @@ namespace Helpful.TextParser.Test.Parser
     }
 
     public class ParserFooClass1
+    {
+        public string Property1 { get; set; }
+
+        public string Property2 { get; set; }
+
+        public decimal Property3 { get; set; }
+
+        public DateTime Property4 { get; set; }
+
+        public string Property5 { get; set; }
+
+        public int? Property6 { get; set; }
+
+        public List<ParserFooClass2> Property7 { get; set; }
+    }
+
+    public class ParserFooClass2
+    {
+        public string Property1 { get; set; }
+
+        public string Property2 { get; set; }
+
+        public decimal Property3 { get; set; }
+
+        public DateTime Property4 { get; set; }
+
+        public string Property5 { get; set; }
+
+        public int? Property6 { get; set; }
+
+        public List<ParserFooClass3> Property7 { get; set; }
+    }
+
+    public class ParserFooClass3
     {
         public string Property1 { get; set; }
 

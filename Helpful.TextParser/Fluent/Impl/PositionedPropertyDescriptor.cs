@@ -36,7 +36,7 @@ namespace Helpful.TextParser.Fluent.Impl
         {
             if (string.IsNullOrEmpty(tag))
             {
-                throw new ArgumentException($"Tag cannot be empty for {typeof(TChildClass).FullName}");
+                throw new ArgumentNullException($"Tag cannot be empty for {typeof(TChildClass).FullName}");
             }
 
             var element = _parentElement.Elements.Last();

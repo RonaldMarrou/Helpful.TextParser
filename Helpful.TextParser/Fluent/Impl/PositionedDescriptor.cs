@@ -20,7 +20,7 @@ namespace Helpful.TextParser.Fluent.Impl
         {
             if (string.IsNullOrEmpty(tag))
             {
-                throw new ArgumentException($"Tag cannot be empty for {typeof(TClass).FullName}");
+                throw new ArgumentNullException($"Tag cannot be empty for {typeof(TClass).FullName}");
             }
 
             _element.Tag = tag;

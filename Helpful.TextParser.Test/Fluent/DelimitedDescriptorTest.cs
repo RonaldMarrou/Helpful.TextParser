@@ -13,6 +13,26 @@ namespace Helpful.TextParser.Test.Fluent
     public class DelimitedDescriptorTest
     {
         [Test]
+        [TestCase(null)]
+        [TestCase("")]
+        public void DelimitedDescriptor_TagIsEmpty_ReturnSexception(string tag)
+        {
+            var sut = new TestDelimitedDescriptor(It.IsAny<string>(), It.IsAny<IParser>());
+
+            Should.Throw<ArgumentNullException>(() => sut.MapTo<DelimitedFooClass>(tag));
+        }
+
+        [Test]
+        [TestCase(null)]
+        [TestCase("")]
+        public void DelimitedDescriptor_PropertyTagIsEmpty_ReturnSexception(string tag)
+        {
+            var sut = new TestDelimitedDescriptor(It.IsAny<string>(), It.IsAny<IParser>());
+
+            Should.Throw<ArgumentNullException>(() => sut.MapTo<DelimitedFooClass>("NOTEMPTY").Position(0).Properties(property => property.Property(x => x.FooProperty1).MapTo<DelimitedChildFooClass>(tag)));
+        }
+
+        [Test]
         [TestCase("FOO1", "FOO1")]
         [TestCase("FOO2", "FOO2")]
         [TestCase("FOO3", "FOO3")]

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Helpful.TextParser.Fluent.Impl;
 using Helpful.TextParser.Interface;
@@ -11,6 +12,70 @@ namespace Helpful.TextParser.Test.Fluent
 {
     public class PositionedDescriptorTest
     {
+        [Test]
+        [TestCase(null)]
+        [TestCase("")]
+        public void PositioneddDescriptor_TagIsEmpty_ReturnsException(string tag)
+        {
+            var sut = new TestPositionedDescriptor(It.IsAny<IParser>());
+
+            Should.Throw<ArgumentNullException>(() => sut.MapTo<DelimitedFooClass>(tag));
+        }
+
+        [Test]
+        [TestCase(2, 1)]
+        [TestCase(3, 3)]
+        [TestCase(25, 4)]
+        public void PositioneddDescriptor_PropertyPosition_ReturnsException(int startPosition, int endPosition)
+        {
+            var sut = new TestPositionedDescriptor(It.IsAny<IParser>());
+
+            Should.Throw<ArgumentException>(() => sut.MapTo<DelimitedFooClass>().Properties(property => property.Property(x => x.FooProperty1).Position(startPosition, endPosition)));
+        }
+
+        [Test]
+        [TestCase(2, 1)]
+        [TestCase(3, 3)]
+        [TestCase(25, 4)]
+        public void PositioneddDescriptor_NotValidTagPosition_ReturnsException(int startPosition, int endPosition)
+        {
+            var sut = new TestPositionedDescriptor(It.IsAny<IParser>());
+
+            Should.Throw<ArgumentException>(() => sut.MapTo<DelimitedFooClass>("NOTEMPTY").Position(startPosition, endPosition));
+        }
+
+        [Test]
+        [TestCase(null)]
+        [TestCase("")]
+        public void PositionedDescriptor_PropertyTagIsEmpty_ReturnsException(string tag)
+        {
+            var sut = new TestPositionedDescriptor(It.IsAny<IParser>());
+
+            Should.Throw<ArgumentNullException>(() => sut.MapTo<DelimitedFooClass>("NOTEMPTY").Position(0, 1).Properties(property => property.Property(x => x.FooProperty1).MapTo<DelimitedChildFooClass>(tag)));
+        }
+
+        [Test]
+        [TestCase(2, 1)]
+        [TestCase(3, 3)]
+        [TestCase(25, 4)]
+        public void PositioneddDescriptor_NotValidPropertyTagPosition_ReturnsException(int startPosition, int endPosition)
+        {
+            var sut = new TestPositionedDescriptor(It.IsAny<IParser>());
+
+            Should.Throw<ArgumentException>(() => sut.MapTo<DelimitedFooClass>("NOTEMPTY").Position(0, 1).Properties(property => property.Property(x => x.FooProperty1).MapTo<DelimitedChildFooClass>("NOTEMPTY").Position(startPosition, endPosition)));
+        }
+
+        [Test]
+        [TestCase(2, 1)]
+        [TestCase(3, 3)]
+        [TestCase(25, 4)]
+        public void PositioneddDescriptor_TagPropertyPosition_ReturnsException(int startPosition, int endPosition)
+        {
+            var sut = new TestPositionedDescriptor(It.IsAny<IParser>());
+
+            Should.Throw<ArgumentException>(() => sut.MapTo<DelimitedFooClass>("NOTEMPTY").Position(0, 1).Properties(property => property.Property(x => x.FooProperty1).Position(startPosition, endPosition)));
+        }
+
         [Test]
         public void PositionedDescriptor_Constructor_InitializeComponentCorrectly()
         {

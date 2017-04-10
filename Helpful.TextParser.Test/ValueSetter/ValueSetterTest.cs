@@ -9,6 +9,7 @@ namespace Helpful.TextParser.Test.ValueSetter
     {
         [Test]
         [TestCase("NullableDateTime", null, true, null)]
+        [TestCase("NullableDateTime", "2017-31-32", false, null)]
         [TestCase("Boolean", "True", true, true)]
         [TestCase("Byte", "254", true, 254)]
         [TestCase("SByte", "120", true, 120)]

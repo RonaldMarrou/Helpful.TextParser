@@ -1,4 +1,5 @@
-﻿using Helpful.TextParser.Interface;
+﻿using System;
+using Helpful.TextParser.Interface;
 using Helpful.TextParser.Fluent.Impl;
 using Helpful.TextParser.Fluent.Interface;
 
@@ -15,6 +16,11 @@ namespace Helpful.TextParser.Impl
 
         public IDelimitedDescriptor Delimited(string delimitationString)
         {
+            if (string.IsNullOrEmpty(delimitationString))
+            {
+                throw new ArgumentNullException("Delimitation String Cannot be null or empty");
+            }
+
             return new DelimitedDescriptor(delimitationString, _parser);
         }
 

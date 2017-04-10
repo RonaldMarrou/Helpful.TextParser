@@ -10,11 +10,13 @@ namespace Helpful.TextParser.Impl
     {
         private readonly ILineValueExtractorFactory _lineValueExtractorFactory;
         private readonly IValueSetter _valueSetter;
+        private readonly MethodInfo _lastMethodInfo;
 
         public Parser(ILineValueExtractorFactory lineValueExtractorFactory, IValueSetter valueSetter)
         {
             _lineValueExtractorFactory = lineValueExtractorFactory;
             _valueSetter = valueSetter;
+            _lastMethodInfo = typeof(Enumerable).GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault(x => x.Name == "Last" && x.GetParameters().Count() == 1);
         }
 
         public Result<T> Parse<T>(Element element, string[] lines)
@@ -52,10 +54,7 @@ namespace Helpful.TextParser.Impl
 
                 if (tagValue.Value != element.Tag)
                 {
-                    var tagElement = (from childTag in element.Elements.Where(x => x.ElementType == ElementType.Tag)
-                                      let childTagValue = lineValueExtractor.Extract(lines[i], childTag)
-                                      where childTagValue.IsFound && childTagValue.Value == childTag.Tag
-                                      select childTag).FirstOrDefault();
+                    var tagElement = GetTagObject(element, lines[i], lineValueExtractor);
 
                     if (tagElement != null)
                     {
@@ -138,16 +137,11 @@ namespace Helpful.TextParser.Impl
 
                 if (tagValue.Value != element.Tag)
                 {
-                    var tagElement = (from childTag in element.Elements.Where(x => x.ElementType == ElementType.Tag)
-                                      let childTagValue = lineValueExtractor.Extract(lines[i], childTag)
-                                      where childTagValue.IsFound && childTagValue.Value == childTag.Tag
-                                      select childTag).FirstOrDefault();
+                    var tagElement = GetTagObject(element, lines[i], lineValueExtractor);
 
                     if (tagElement != null)
                     {
-                        var lastMethod = typeof(Enumerable).GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault(x => x.Name == "Last" && x.GetParameters().Count() == 1).MakeGenericMethod(element.Type);
-
-                        var lastInstance = lastMethod.Invoke(null, new[] { listPropertyInfo.GetValue(parentInstance) });
+                        var lastInstance = GetLastFromList(element.Type, listPropertyInfo, parentInstance);
 
                         var childListPropertyInfo = lastInstance.GetType().GetProperty(tagElement.Name);
 
@@ -193,7 +187,7 @@ namespace Helpful.TextParser.Impl
             }
         }
 
-        private void ParseWithoutTag<T>(Element element, Result<T> result , string[] lines)
+        private void ParseWithoutTag<T>(Element element, Result<T> result, string[] lines)
         {
             var lineValueExtractor = _lineValueExtractorFactory.Get(element.LineValueExtractorType);
 
@@ -226,6 +220,25 @@ namespace Helpful.TextParser.Impl
                     }
                 }
             }
+        }
+
+        private object GetLastFromList(Type type, PropertyInfo listPropertyInfo, object parentInstance)
+        {
+            var genericLastMethod = _lastMethodInfo.MakeGenericMethod(type);
+
+            var lastInstance = genericLastMethod.Invoke(null, new[] { listPropertyInfo.GetValue(parentInstance) });
+
+            return lastInstance;
+        }
+
+        private Element GetTagObject(Element element, string line, ILineValueExtractor lineValueExtractor)
+        {
+            var tagElement = (from childTag in element.Elements.Where(x => x.ElementType == ElementType.Tag)
+                              let childTagValue = lineValueExtractor.Extract(line, childTag)
+                              where childTagValue.IsFound && childTagValue.Value == childTag.Tag
+                              select childTag).FirstOrDefault();
+
+            return tagElement;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Helpful.TextParser.Fluent.Impl;
 using Helpful.TextParser.Interface;
@@ -202,26 +203,34 @@ namespace Helpful.TextParser.Test.Fluent
 
     public class DelimitedFooClass
     {
+        [ExcludeFromCodeCoverage]
         public bool FooProperty1 { get; set; }
 
+        [ExcludeFromCodeCoverage]
         public decimal FooProperty2 { get; set; }
 
+        [ExcludeFromCodeCoverage]
         public List<DelimitedChildFooClass> FooProperty3 { get; set; }
 
+        [ExcludeFromCodeCoverage]
         public List<DelimitedChildFooClass> FooProperty4 { get; set; }
     }
 
     public class DelimitedChildFooClass
     {
+        [ExcludeFromCodeCoverage]
         public string FooProperty5 { get; set; }
 
+        [ExcludeFromCodeCoverage]
         public string FooProperty6 { get; set; }
 
+        [ExcludeFromCodeCoverage]
         public List<DelimitedGrandChildFooClass> FooProperty7 { get; set; }
     }
 
     public class DelimitedGrandChildFooClass
     {
+        [ExcludeFromCodeCoverage]
         public string FooProperty8 { get; set; }
     }
 

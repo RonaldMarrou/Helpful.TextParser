@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using NUnit.Framework;
 using Shouldly;
@@ -139,6 +140,7 @@ namespace Helpful.TextParser.Test.ValueSetter
 
         public string String { get; set; }
 
+        [ExcludeFromCodeCoverage]
         public List<string> Strings { get; set; }
     }
 }

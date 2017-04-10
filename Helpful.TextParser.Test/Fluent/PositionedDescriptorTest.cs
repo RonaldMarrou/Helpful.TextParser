@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Helpful.TextParser.Fluent.Impl;
 using Helpful.TextParser.Interface;
@@ -248,26 +249,34 @@ namespace Helpful.TextParser.Test.Fluent
 
     public class PositionedFooClass
     {
+        [ExcludeFromCodeCoverage]
         public bool FooProperty1 { get; set; }
 
+        [ExcludeFromCodeCoverage]
         public decimal FooProperty2 { get; set; }
 
+        [ExcludeFromCodeCoverage]
         public List<PositionedChildFooClass> FooProperty3 { get; set; }
 
+        [ExcludeFromCodeCoverage]
         public List<PositionedChildFooClass> FooProperty4 { get; set; }
     }
 
     public class PositionedChildFooClass
     {
+        [ExcludeFromCodeCoverage]
         public string FooProperty5 { get; set; }
 
+        [ExcludeFromCodeCoverage]
         public string FooProperty6 { get; set; }
 
+        [ExcludeFromCodeCoverage]
         public List<PositionedGrandChildFooClass> FooProperty7 { get; set; }
     }
 
     public class PositionedGrandChildFooClass
     {
+        [ExcludeFromCodeCoverage]
         public string FooProperty8 { get; set; }
     }
 

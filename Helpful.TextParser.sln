@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpful.TextParser.Test", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpful.TextParser.Unity3.Installer", "Helpful.TextParser.Unity3.Installer\Helpful.TextParser.Unity3.Installer.csproj", "{65B5972D-FFA0-444B-90B5-8F66787C5B43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpful.TextParser.Windsor.Installer", "Helpful.TextParser.Windsor.Installer\Helpful.TextParser.Windsor.Installer.csproj", "{667BDBE0-F754-4B59-87CF-0BB060093899}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpful.TextParser.LightInject.Installer", "Helpful.TextParser.LightInject.Installer\Helpful.TextParser.LightInject.Installer.csproj", "{8199CDF4-0D1B-4F73-BF9C-F8D3054D1F7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{65B5972D-FFA0-444B-90B5-8F66787C5B43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65B5972D-FFA0-444B-90B5-8F66787C5B43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65B5972D-FFA0-444B-90B5-8F66787C5B43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{667BDBE0-F754-4B59-87CF-0BB060093899}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{667BDBE0-F754-4B59-87CF-0BB060093899}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{667BDBE0-F754-4B59-87CF-0BB060093899}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{667BDBE0-F754-4B59-87CF-0BB060093899}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8199CDF4-0D1B-4F73-BF9C-F8D3054D1F7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8199CDF4-0D1B-4F73-BF9C-F8D3054D1F7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8199CDF4-0D1B-4F73-BF9C-F8D3054D1F7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8199CDF4-0D1B-4F73-BF9C-F8D3054D1F7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

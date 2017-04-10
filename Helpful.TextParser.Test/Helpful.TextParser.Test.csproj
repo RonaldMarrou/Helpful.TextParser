@@ -74,6 +74,9 @@
     <Compile Include="LineValueExtractor\DelimitedLineValueExtractorTest.cs" />
     <Compile Include="LineValueExtractor\LineValueExtractorFactoryTest.cs" />
     <Compile Include="LineValueExtractor\PositionedLineValueExtractorTest.cs" />
+    <Compile Include="Dummy\DummyFooClass1.cs" />
+    <Compile Include="Dummy\DummyFooClass2.cs" />
+    <Compile Include="Dummy\DummyFooClass3.cs" />
     <Compile Include="Parser\ParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValueSetter\ValueSetterTest.cs" />

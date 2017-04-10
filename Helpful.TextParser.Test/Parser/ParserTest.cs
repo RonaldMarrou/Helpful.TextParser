@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using Helpful.TextParser.Impl;
 using Helpful.TextParser.Impl.LineValueExtractor;
 using Helpful.TextParser.Interface;
+using Helpful.TextParser.Test.Dummy;
 using NUnit.Framework;
 using Shouldly;
 
@@ -22,7 +22,7 @@ namespace Helpful.TextParser.Test.Parser
                     }), new Impl.ValueSetter()
                 ));
 
-            var parser = sut.Delimited(",").MapTo<ParserFooClass1>().Properties(
+            var parser = sut.Delimited(",").MapTo<DummyFooClass1>().Properties(
                 properties =>
                 {
                     properties.Property(x => x.Property1).Position(0).Required();
@@ -61,7 +61,7 @@ namespace Helpful.TextParser.Test.Parser
                     }), new Impl.ValueSetter()
                 ));
 
-            var parser = sut.Delimited(",").MapTo<ParserFooClass1>().Properties(
+            var parser = sut.Delimited(",").MapTo<DummyFooClass1>().Properties(
                 properties =>
                 {
                     properties.Property(x => x.Property1).Position(0).Required();
@@ -129,7 +129,7 @@ namespace Helpful.TextParser.Test.Parser
                     }), new Impl.ValueSetter()
                 ));
 
-            var parser = sut.Delimited(",").MapTo<ParserFooClass1>("HEADER").Position(0).Properties(
+            var parser = sut.Delimited(",").MapTo<DummyFooClass1>("HEADER").Position(0).Properties(
                 properties =>
                 {
                     properties.Property(x => x.Property1).Position(1).Required();
@@ -170,14 +170,14 @@ namespace Helpful.TextParser.Test.Parser
                     }), new Impl.ValueSetter()
                 ));
 
-            var parser = sut.Delimited(",").MapTo<ParserFooClass1>("HEADER").Position(0).Properties(
+            var parser = sut.Delimited(",").MapTo<DummyFooClass1>("HEADER").Position(0).Properties(
                 properties =>
                 {
                     properties.Property(x => x.Property1).Position(1).Required();
                     properties.Property(x => x.Property2).Position(2).Required();
                     properties.Property(x => x.Property3).Position(3).Required();
 
-                    properties.Property(x => x.Property7).MapTo<ParserFooClass2>("DETAIL").Position(0).Properties(
+                    properties.Property(x => x.Property7).MapTo<DummyFooClass2>("DETAIL").Position(0).Properties(
                         childProperties =>
                         {
                             childProperties.Property(x => x.Property1).Position(1).Required();
@@ -224,21 +224,21 @@ namespace Helpful.TextParser.Test.Parser
                     }), new Impl.ValueSetter()
                 ));
 
-            var parser = sut.Delimited(",").MapTo<ParserFooClass1>("HEADER").Position(0).Properties(
+            var parser = sut.Delimited(",").MapTo<DummyFooClass1>("HEADER").Position(0).Properties(
                 properties =>
                 {
                     properties.Property(x => x.Property1).Position(1).Required();
                     properties.Property(x => x.Property2).Position(2).Required();
                     properties.Property(x => x.Property3).Position(3).Required();
 
-                    properties.Property(x => x.Property7).MapTo<ParserFooClass2>("DETAIL").Position(0).Properties(
+                    properties.Property(x => x.Property7).MapTo<DummyFooClass2>("DETAIL").Position(0).Properties(
                         childProperties =>
                         {
                             childProperties.Property(x => x.Property1).Position(1).Required();
                             childProperties.Property(x => x.Property2).Position(2).Required();
                             childProperties.Property(x => x.Property3).Position(3).Required();
 
-                            childProperties.Property(x => x.Property7).MapTo<ParserFooClass3>("SUBDETAIL").Position(0).Properties(
+                            childProperties.Property(x => x.Property7).MapTo<DummyFooClass3>("SUBDETAIL").Position(0).Properties(
                                 grandChildProperties =>
                                 {
                                     grandChildProperties.Property(x => x.Property1).Position(1).Required();
@@ -292,21 +292,21 @@ namespace Helpful.TextParser.Test.Parser
                     }), new Impl.ValueSetter()
                 ));
 
-            var parser = sut.Delimited(",").MapTo<ParserFooClass1>("HEADER").Position(0).Properties(
+            var parser = sut.Delimited(",").MapTo<DummyFooClass1>("HEADER").Position(0).Properties(
                 properties =>
                 {
                     properties.Property(x => x.Property1).Position(1).Required();
                     properties.Property(x => x.Property2).Position(2).Required();
                     properties.Property(x => x.Property3).Position(3).Required();
 
-                    properties.Property(x => x.Property7).MapTo<ParserFooClass2>("DETAIL").Position(0).Properties(
+                    properties.Property(x => x.Property7).MapTo<DummyFooClass2>("DETAIL").Position(0).Properties(
                         childProperties =>
                         {
                             childProperties.Property(x => x.Property1).Position(1).Required();
                             childProperties.Property(x => x.Property2).Position(2).Required();
                             childProperties.Property(x => x.Property3).Position(3).Required();
 
-                            childProperties.Property(x => x.Property7).MapTo<ParserFooClass3>("SUBDETAIL").Position(0).Properties(
+                            childProperties.Property(x => x.Property7).MapTo<DummyFooClass3>("SUBDETAIL").Position(0).Properties(
                                 grandChildProperties =>
                                 {
                                     grandChildProperties.Property(x => x.Property1).Position(1).Required();
@@ -365,7 +365,7 @@ namespace Helpful.TextParser.Test.Parser
                     }), new Impl.ValueSetter()
                 ));
 
-            var parser = sut.Delimited(",").MapTo<ParserFooClass1>("HEADER").Position(0).Properties(
+            var parser = sut.Delimited(",").MapTo<DummyFooClass1>("HEADER").Position(0).Properties(
                 properties =>
                 {
                     properties.Property(x => x.Property1).Position(1).Required();
@@ -375,7 +375,7 @@ namespace Helpful.TextParser.Test.Parser
                     properties.Property(x => x.Property5).Position(5).Required();
                     properties.Property(x => x.Property6).Position(6).NotRequired();
 
-                    properties.Property(x => x.Property7).MapTo<ParserFooClass2>("DETAIL").Position(0).Properties(
+                    properties.Property(x => x.Property7).MapTo<DummyFooClass2>("DETAIL").Position(0).Properties(
                         childProperties =>
                         {
                             childProperties.Property(x => x.Property1).Position(1).Required();
@@ -385,7 +385,7 @@ namespace Helpful.TextParser.Test.Parser
                             childProperties.Property(x => x.Property5).Position(5).Required();
                             childProperties.Property(x => x.Property6).Position(6).NotRequired();
 
-                            childProperties.Property(x => x.Property7).MapTo<ParserFooClass3>("SUBDETAIL").Position(0).Properties(
+                            childProperties.Property(x => x.Property7).MapTo<DummyFooClass3>("SUBDETAIL").Position(0).Properties(
                                 grandChildProperties =>
                                 {
                                     grandChildProperties.Property(x => x.Property1).Position(1).Required();
@@ -489,7 +489,7 @@ namespace Helpful.TextParser.Test.Parser
                     }), new Impl.ValueSetter()
                 ));
 
-            var parser = sut.Positioned().MapTo<ParserFooClass1>().Properties(
+            var parser = sut.Positioned().MapTo<DummyFooClass1>().Properties(
                 properties =>
                 {
                     properties.Property(x => x.Property1).Position(0, 9).Required();
@@ -527,7 +527,7 @@ namespace Helpful.TextParser.Test.Parser
                     }), new Impl.ValueSetter()
                 ));
 
-            var parser = sut.Positioned().MapTo<ParserFooClass1>().Properties(
+            var parser = sut.Positioned().MapTo<DummyFooClass1>().Properties(
                 properties =>
                 {
                     properties.Property(x => x.Property1).Position(0, 10).Required();
@@ -603,7 +603,7 @@ namespace Helpful.TextParser.Test.Parser
                     }), new Impl.ValueSetter()
                 ));
 
-            var parser = sut.Positioned().MapTo<ParserFooClass1>("HH").Position(0, 2).Properties(
+            var parser = sut.Positioned().MapTo<DummyFooClass1>("HH").Position(0, 2).Properties(
                 properties =>
                 {
                     properties.Property(x => x.Property1).Position(2, 11).Required();
@@ -644,14 +644,14 @@ namespace Helpful.TextParser.Test.Parser
                     }), new Impl.ValueSetter()
                 ));
 
-            var parser = sut.Positioned().MapTo<ParserFooClass1>("HH").Position(0, 2).Properties(
+            var parser = sut.Positioned().MapTo<DummyFooClass1>("HH").Position(0, 2).Properties(
                 properties =>
                 {
                     properties.Property(x => x.Property1).Position(2, 11).Required();
                     properties.Property(x => x.Property2).Position(11, 19).Required();
                     properties.Property(x => x.Property3).Position(19, 26).Required();
 
-                    properties.Property(x => x.Property7).MapTo<ParserFooClass2>("DD").Position(0, 2).Properties(
+                    properties.Property(x => x.Property7).MapTo<DummyFooClass2>("DD").Position(0, 2).Properties(
                         childProperties =>
                         {
                             childProperties.Property(x => x.Property1).Position(2, 11).Required();
@@ -698,21 +698,21 @@ namespace Helpful.TextParser.Test.Parser
                     }), new Impl.ValueSetter()
                 ));
 
-            var parser = sut.Positioned().MapTo<ParserFooClass1>("HH").Position(0, 2).Properties(
+            var parser = sut.Positioned().MapTo<DummyFooClass1>("HH").Position(0, 2).Properties(
                 properties =>
                 {
                     properties.Property(x => x.Property1).Position(2, 11).Required();
                     properties.Property(x => x.Property2).Position(11, 19).Required();
                     properties.Property(x => x.Property3).Position(19, 26).Required();
 
-                    properties.Property(x => x.Property7).MapTo<ParserFooClass2>("DD").Position(0, 2).Properties(
+                    properties.Property(x => x.Property7).MapTo<DummyFooClass2>("DD").Position(0, 2).Properties(
                         childProperties =>
                         {
                             childProperties.Property(x => x.Property1).Position(2, 11).Required();
                             childProperties.Property(x => x.Property2).Position(11, 19).Required();
                             childProperties.Property(x => x.Property3).Position(19, 26).Required();
 
-                            childProperties.Property(x => x.Property7).MapTo<ParserFooClass3>("SD").Position(0, 2).Properties(
+                            childProperties.Property(x => x.Property7).MapTo<DummyFooClass3>("SD").Position(0, 2).Properties(
                                 grandChildProperties =>
                                 {
                                     grandChildProperties.Property(x => x.Property1).Position(2, 11).Required();
@@ -766,21 +766,21 @@ namespace Helpful.TextParser.Test.Parser
                     }), new Impl.ValueSetter()
                 ));
 
-            var parser = sut.Positioned().MapTo<ParserFooClass1>("HH").Position(0, 2).Properties(
+            var parser = sut.Positioned().MapTo<DummyFooClass1>("HH").Position(0, 2).Properties(
                 properties =>
                 {
                     properties.Property(x => x.Property1).Position(2, 11).Required();
                     properties.Property(x => x.Property2).Position(11, 19).Required();
                     properties.Property(x => x.Property3).Position(19, 26).Required();
 
-                    properties.Property(x => x.Property7).MapTo<ParserFooClass2>("DD").Position(0, 2).Properties(
+                    properties.Property(x => x.Property7).MapTo<DummyFooClass2>("DD").Position(0, 2).Properties(
                         childProperties =>
                         {
                             childProperties.Property(x => x.Property1).Position(2, 11).Required();
                             childProperties.Property(x => x.Property2).Position(11, 19).Required();
                             childProperties.Property(x => x.Property3).Position(19, 26).Required();
 
-                            childProperties.Property(x => x.Property7).MapTo<ParserFooClass3>("SD").Position(0, 2).Properties(
+                            childProperties.Property(x => x.Property7).MapTo<DummyFooClass3>("SD").Position(0, 2).Properties(
                                 grandChildProperties =>
                                 {
                                     grandChildProperties.Property(x => x.Property1).Position(2, 11).Required();
@@ -834,7 +834,7 @@ namespace Helpful.TextParser.Test.Parser
                     }), new Impl.ValueSetter()
                 ));
 
-            var parser = sut.Positioned().MapTo<ParserFooClass1>("HH").Position(0, 2).Properties(
+            var parser = sut.Positioned().MapTo<DummyFooClass1>("HH").Position(0, 2).Properties(
                 properties =>
                 {
                     properties.Property(x => x.Property1).Position(2, 8).Required();
@@ -844,7 +844,7 @@ namespace Helpful.TextParser.Test.Parser
                     properties.Property(x => x.Property5).Position(31, 37).Required();
                     properties.Property(x => x.Property6).Position(37, 39).NotRequired();
 
-                    properties.Property(x => x.Property7).MapTo<ParserFooClass2>("DD").Position(0, 2).Properties(
+                    properties.Property(x => x.Property7).MapTo<DummyFooClass2>("DD").Position(0, 2).Properties(
                         childProperties =>
                         {
                             childProperties.Property(x => x.Property1).Position(2, 11).Required();
@@ -854,7 +854,7 @@ namespace Helpful.TextParser.Test.Parser
                             childProperties.Property(x => x.Property5).Position(41, 50).Required();
                             childProperties.Property(x => x.Property6).Position(50, 52).NotRequired();
 
-                            childProperties.Property(x => x.Property7).MapTo<ParserFooClass3>("SD").Position(0, 2).Properties(
+                            childProperties.Property(x => x.Property7).MapTo<DummyFooClass3>("SD").Position(0, 2).Properties(
                                 grandChildProperties =>
                                 {
                                     grandChildProperties.Property(x => x.Property1).Position(2, 15).Required();
@@ -945,54 +945,5 @@ namespace Helpful.TextParser.Test.Parser
             result.Content[2].Property7[0].Property7[1].Property5.ShouldBe("SUBDETAIL3412");
             result.Content[2].Property7[0].Property7[1].Property6.ShouldBe(80);
         }
-    }
-
-    public class ParserFooClass1
-    {
-        public string Property1 { get; set; }
-
-        public string Property2 { get; set; }
-
-        public decimal Property3 { get; set; }
-
-        public DateTime Property4 { get; set; }
-
-        public string Property5 { get; set; }
-
-        public int? Property6 { get; set; }
-
-        public List<ParserFooClass2> Property7 { get; set; }
-    }
-
-    public class ParserFooClass2
-    {
-        public string Property1 { get; set; }
-
-        public string Property2 { get; set; }
-
-        public decimal Property3 { get; set; }
-
-        public DateTime Property4 { get; set; }
-
-        public string Property5 { get; set; }
-
-        public int? Property6 { get; set; }
-
-        public List<ParserFooClass3> Property7 { get; set; }
-    }
-
-    public class ParserFooClass3
-    {
-        public string Property1 { get; set; }
-
-        public string Property2 { get; set; }
-
-        public decimal Property3 { get; set; }
-
-        public DateTime Property4 { get; set; }
-
-        public string Property5 { get; set; }
-
-        public int? Property6 { get; set; }
     }
 }

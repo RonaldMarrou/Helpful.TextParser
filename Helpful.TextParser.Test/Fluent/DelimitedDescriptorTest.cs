@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Helpful.TextParser.Fluent.Impl;
 using Helpful.TextParser.Interface;
 using Helpful.TextParser.Model;
+using Helpful.TextParser.Test.Dummy;
+using Helpful.TextParser.Test.Parser;
 using Moq;
 using NUnit.Framework;
 using Shouldly;
@@ -20,7 +20,7 @@ namespace Helpful.TextParser.Test.Fluent
         {
             var sut = new TestDelimitedDescriptor(It.IsAny<string>(), It.IsAny<IParser>());
 
-            Should.Throw<ArgumentNullException>(() => sut.MapTo<DelimitedFooClass>(tag));
+            Should.Throw<ArgumentNullException>(() => sut.MapTo<DummyFooClass1>(tag));
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace Helpful.TextParser.Test.Fluent
         {
             var sut = new TestDelimitedDescriptor(It.IsAny<string>(), It.IsAny<IParser>());
 
-            Should.Throw<ArgumentNullException>(() => sut.MapTo<DelimitedFooClass>("NOTEMPTY").Position(0).Properties(property => property.Property(x => x.FooProperty1).MapTo<DelimitedChildFooClass>(tag)));
+            Should.Throw<ArgumentNullException>(() => sut.MapTo<DummyFooClass1>("NOTEMPTY").Position(0).Properties(property => property.Property(x => x.Property1).MapTo<DummyFooClass1>(tag)));
         }
 
         [Test]
@@ -50,10 +50,10 @@ namespace Helpful.TextParser.Test.Fluent
         {
             var sut = new TestDelimitedDescriptor(It.IsAny<string>(), It.IsAny<IParser>());
 
-            sut.MapTo<DelimitedFooClass>();
+            sut.MapTo<DummyFooClass1>();
 
             sut.Element.ElementType.ShouldBe(ElementType.PropertyCollection);
-            sut.Element.Type.ShouldBe(typeof(DelimitedFooClass));
+            sut.Element.Type.ShouldBe(typeof(DummyFooClass1));
         }
 
         [Test]
@@ -61,19 +61,19 @@ namespace Helpful.TextParser.Test.Fluent
         {
             var sut = new TestDelimitedDescriptor(It.IsAny<string>(), It.IsAny<IParser>());
 
-            sut.MapTo<DelimitedFooClass>().Properties(
+            sut.MapTo<DummyFooClass1>().Properties(
                 properties =>
                 {
-                    properties.Property(x => x.FooProperty1).Position(0).Required();
-                    properties.Property(x => x.FooProperty2).Position(1).NotRequired();
+                    properties.Property(x => x.Property1).Position(0).Required();
+                    properties.Property(x => x.Property2).Position(1).NotRequired();
                 }); ;
 
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty1").ShouldNotBeNull();
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty1").ElementType.ShouldBe(ElementType.Property);
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty1").Positions["Position"].ShouldBe(0);
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty2").ShouldNotBeNull();
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty2").ElementType.ShouldBe(ElementType.Property);
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty2").Positions["Position"].ShouldBe(1);
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property1").ShouldNotBeNull();
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property1").ElementType.ShouldBe(ElementType.Property);
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property1").Positions["Position"].ShouldBe(0);
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property2").ShouldNotBeNull();
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property2").ElementType.ShouldBe(ElementType.Property);
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property2").Positions["Position"].ShouldBe(1);
 
             sut.Element.Elements.Count(x => x.ElementType == ElementType.Property).ShouldBe(sut.Element.Elements.Count);
         }
@@ -86,11 +86,11 @@ namespace Helpful.TextParser.Test.Fluent
         {
             var sut = new TestDelimitedDescriptor(It.IsAny<string>(), It.IsAny<IParser>());
 
-            sut.MapTo<DelimitedFooClass>(tag);
+            sut.MapTo<DummyFooClass1>(tag);
 
             sut.Element.ElementType.ShouldBe(ElementType.Tag);
             sut.Element.Tag.ShouldBe(expectedResult);
-            sut.Element.Type.ShouldBe(typeof(DelimitedFooClass));
+            sut.Element.Type.ShouldBe(typeof(DummyFooClass1));
         }
 
         [Test]
@@ -100,7 +100,7 @@ namespace Helpful.TextParser.Test.Fluent
         {
             var sut = new TestDelimitedDescriptor(It.IsAny<string>(), It.IsAny<IParser>());
 
-            Should.Throw<ArgumentException>(() =>  sut.MapTo<DelimitedFooClass>(tag));
+            Should.Throw<ArgumentException>(() =>  sut.MapTo<DummyFooClass1>(tag));
         }
 
         [Test]
@@ -111,7 +111,7 @@ namespace Helpful.TextParser.Test.Fluent
         {
             var sut = new TestDelimitedDescriptor(It.IsAny<string>(), It.IsAny<IParser>());
 
-            sut.MapTo<DelimitedFooClass>("FOO").Position(position);
+            sut.MapTo<DummyFooClass1>("FOO").Position(position);
 
             sut.Element.Positions["Position"].ShouldBe(expectedValue);
         }
@@ -121,129 +121,77 @@ namespace Helpful.TextParser.Test.Fluent
         {
             var sut = new TestDelimitedDescriptor("FOODELIMITATIONSTRING", It.IsAny<IParser>());
 
-            sut.MapTo<DelimitedFooClass>("FOOTAG").Position(0).Properties(
+            sut.MapTo<DummyFooClass1>("FOOTAG").Position(0).Properties(
                 properties =>
                 {
-                    properties.Property(x => x.FooProperty1).Position(1).Required();
-                    properties.Property(x => x.FooProperty2).Position(2).NotRequired();
-                    properties.Property(x => x.FooProperty3).MapTo<DelimitedChildFooClass>("FOODETAILTAG1").Position(0);
-                    properties.Property(x => x.FooProperty4).MapTo<DelimitedChildFooClass>("FOODETAILTAG2").Position(0).Properties(
+                    properties.Property(x => x.Property1).Position(1).Required();
+                    properties.Property(x => x.Property2).Position(2).NotRequired();
+                    properties.Property(x => x.Property7).MapTo<DummyFooClass2>("FOODETAILTAG2").Position(0).Properties(
                         childProperties =>
                         {
-                            childProperties.Property(x => x.FooProperty5).Position(1).Required();
-                            childProperties.Property(x => x.FooProperty6).Position(2).NotRequired();
+                            childProperties.Property(x => x.Property1).Position(1).Required();
+                            childProperties.Property(x => x.Property2).Position(2).NotRequired();
 
-                            childProperties.Property(x => x.FooProperty7).MapTo<DelimitedGrandChildFooClass>("FOOSUBDETAILTAG1").Position(0).Properties(
+                            childProperties.Property(x => x.Property7).MapTo<DummyFooClass3>("FOOSUBDETAILTAG1").Position(0).Properties(
                                 grandChildProperties =>
                                 {
-                                    grandChildProperties.Property(x => x.FooProperty8).Position(1).NotRequired();
+                                    grandChildProperties.Property(x => x.Property1).Position(1).NotRequired();
                                 });
                         });
                 });
 
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty1").ShouldNotBeNull();
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty1").ElementType.ShouldBe(ElementType.Property);
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty1").Positions["Position"].ShouldBe(1);
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property1").ShouldNotBeNull();
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property1").ElementType.ShouldBe(ElementType.Property);
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property1").Positions["Position"].ShouldBe(1);
 
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty2").ShouldNotBeNull();
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty2").ElementType.ShouldBe(ElementType.Property);
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty2").Positions["Position"].ShouldBe(2);
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property2").ShouldNotBeNull();
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property2").ElementType.ShouldBe(ElementType.Property);
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property2").Positions["Position"].ShouldBe(2);
 
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty3").ShouldNotBeNull();
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty3").ElementType.ShouldBe(ElementType.Tag);
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty3").Positions["Position"].ShouldBe(0);
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty3").Custom["DelimitationString"].ShouldBe("FOODELIMITATIONSTRING");
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty3").Tag.ShouldBe("FOODETAILTAG1");
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property7").ShouldNotBeNull();
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property7").ElementType.ShouldBe(ElementType.Tag);
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property7").Positions["Position"].ShouldBe(0);
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property7").Custom["DelimitationString"].ShouldBe("FOODELIMITATIONSTRING");
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property7").Tag.ShouldBe("FOODETAILTAG2");
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property7").Elements.Count.ShouldBe(3);
 
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty4").ShouldNotBeNull();
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty4").ElementType.ShouldBe(ElementType.Tag);
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty4").Positions["Position"].ShouldBe(0);
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty4").Custom["DelimitationString"].ShouldBe("FOODELIMITATIONSTRING");
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty4").Tag.ShouldBe("FOODETAILTAG2");
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty4").Elements.Count.ShouldBe(3);
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property7")
+                .Elements.FirstOrDefault(x => x.Name == "Property1").ShouldNotBeNull();
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property7")
+                .Elements.FirstOrDefault(x => x.Name == "Property1").ElementType.ShouldBe(ElementType.Property);
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property7")
+                 .Elements.FirstOrDefault(x => x.Name == "Property1").Positions["Position"].ShouldBe(1);
 
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty4")
-                .Elements.FirstOrDefault(x => x.Name == "FooProperty5").ShouldNotBeNull();
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty4")
-                .Elements.FirstOrDefault(x => x.Name == "FooProperty5").ElementType.ShouldBe(ElementType.Property);
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty4")
-                 .Elements.FirstOrDefault(x => x.Name == "FooProperty5").Positions["Position"].ShouldBe(1);
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property7")
+                .Elements.FirstOrDefault(x => x.Name == "Property2").ShouldNotBeNull();
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property7")
+                .Elements.FirstOrDefault(x => x.Name == "Property2").ElementType.ShouldBe(ElementType.Property);
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property7")
+                 .Elements.FirstOrDefault(x => x.Name == "Property2").Positions["Position"].ShouldBe(2);
 
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty4")
-                .Elements.FirstOrDefault(x => x.Name == "FooProperty6").ShouldNotBeNull();
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty4")
-                .Elements.FirstOrDefault(x => x.Name == "FooProperty6").ElementType.ShouldBe(ElementType.Property);
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty4")
-                 .Elements.FirstOrDefault(x => x.Name == "FooProperty6").Positions["Position"].ShouldBe(2);
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property7")
+                 .Elements.FirstOrDefault(x => x.Name == "Property7").ShouldNotBeNull();
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property7")
+                 .Elements.FirstOrDefault(x => x.Name == "Property7").ElementType.ShouldBe(ElementType.Tag);
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property7")
+                 .Elements.FirstOrDefault(x => x.Name == "Property7").Positions["Position"].ShouldBe(0);
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property7")
+                 .Elements.FirstOrDefault(x => x.Name == "Property7").Custom["DelimitationString"].ShouldBe("FOODELIMITATIONSTRING");
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property7")
+                 .Elements.FirstOrDefault(x => x.Name == "Property7").Tag.ShouldBe("FOOSUBDETAILTAG1");
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property7")
+                 .Elements.FirstOrDefault(x => x.Name == "Property7").Elements.Count.ShouldBe(1);
 
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty4")
-                 .Elements.FirstOrDefault(x => x.Name == "FooProperty7").ShouldNotBeNull();
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty4")
-                 .Elements.FirstOrDefault(x => x.Name == "FooProperty7").ElementType.ShouldBe(ElementType.Tag);
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty4")
-                 .Elements.FirstOrDefault(x => x.Name == "FooProperty7").Positions["Position"].ShouldBe(0);
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty4")
-                 .Elements.FirstOrDefault(x => x.Name == "FooProperty7").Custom["DelimitationString"].ShouldBe("FOODELIMITATIONSTRING");
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty4")
-                 .Elements.FirstOrDefault(x => x.Name == "FooProperty7").Tag.ShouldBe("FOOSUBDETAILTAG1");
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty4")
-                 .Elements.FirstOrDefault(x => x.Name == "FooProperty7").Elements.Count.ShouldBe(1);
-
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty4")
-                 .Elements.FirstOrDefault(x => x.Name == "FooProperty7")
-                 .Elements.FirstOrDefault(x => x.Name == "FooProperty8").ShouldNotBeNull();
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty4")
-                 .Elements.FirstOrDefault(x => x.Name == "FooProperty7")
-                 .Elements.FirstOrDefault(x => x.Name == "FooProperty8").ElementType.ShouldBe(ElementType.Property);
-            sut.Element.Elements.FirstOrDefault(x => x.Name == "FooProperty4")
-                 .Elements.FirstOrDefault(x => x.Name == "FooProperty7")
-                 .Elements.FirstOrDefault(x => x.Name == "FooProperty8").Positions["Position"].ShouldBe(1);
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property7")
+                 .Elements.FirstOrDefault(x => x.Name == "Property7")
+                 .Elements.FirstOrDefault(x => x.Name == "Property1").ShouldNotBeNull();
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property7")
+                 .Elements.FirstOrDefault(x => x.Name == "Property7")
+                 .Elements.FirstOrDefault(x => x.Name == "Property1").ElementType.ShouldBe(ElementType.Property);
+            sut.Element.Elements.FirstOrDefault(x => x.Name == "Property7")
+                 .Elements.FirstOrDefault(x => x.Name == "Property7")
+                 .Elements.FirstOrDefault(x => x.Name == "Property1").Positions["Position"].ShouldBe(1);
         }
-    }
-
-    public class DelimitedFooClass
-    {
-        public DelimitedFooClass()
-        {
-            FooProperty1 = false;
-            FooProperty2 = 0;
-            FooProperty3 = null;
-            FooProperty4 = null;
-        }
-
-        public bool FooProperty1 { get; set; }
-
-        public decimal FooProperty2 { get; set; }
-
-        public List<DelimitedChildFooClass> FooProperty3 { get; set; }
-
-        public List<DelimitedChildFooClass> FooProperty4 { get; set; }
-    }
-
-    public class DelimitedChildFooClass
-    {
-        public DelimitedChildFooClass()
-        {
-            FooProperty5 = null;
-            FooProperty6 = null;
-            FooProperty7 = null;
-        }
-
-        public string FooProperty5 { get; set; }
-
-        public string FooProperty6 { get; set; }
-
-        public List<DelimitedGrandChildFooClass> FooProperty7 { get; set; }
-    }
-
-    public class DelimitedGrandChildFooClass
-    {
-        public DelimitedGrandChildFooClass()
-        {
-            FooProperty8 = null;
-        }
-
-        public string FooProperty8 { get; set; }
     }
 
     public class TestDelimitedDescriptor : DelimitedDescriptor

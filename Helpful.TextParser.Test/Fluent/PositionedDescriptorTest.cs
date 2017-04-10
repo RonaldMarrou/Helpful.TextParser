@@ -249,34 +249,46 @@ namespace Helpful.TextParser.Test.Fluent
 
     public class PositionedFooClass
     {
-        [ExcludeFromCodeCoverage]
+        public PositionedFooClass()
+        {
+            FooProperty1 = false;
+            FooProperty2 = 0;
+            FooProperty3 = null;
+            FooProperty4 = null;
+        }
+
         public bool FooProperty1 { get; set; }
 
-        [ExcludeFromCodeCoverage]
         public decimal FooProperty2 { get; set; }
 
-        [ExcludeFromCodeCoverage]
         public List<PositionedChildFooClass> FooProperty3 { get; set; }
 
-        [ExcludeFromCodeCoverage]
         public List<PositionedChildFooClass> FooProperty4 { get; set; }
     }
 
     public class PositionedChildFooClass
     {
-        [ExcludeFromCodeCoverage]
+        public PositionedChildFooClass()
+        {
+            FooProperty5= null;
+            FooProperty6 = null;
+            FooProperty7 = null;
+        }
+
         public string FooProperty5 { get; set; }
 
-        [ExcludeFromCodeCoverage]
         public string FooProperty6 { get; set; }
 
-        [ExcludeFromCodeCoverage]
         public List<PositionedGrandChildFooClass> FooProperty7 { get; set; }
     }
 
     public class PositionedGrandChildFooClass
     {
-        [ExcludeFromCodeCoverage]
+        public PositionedGrandChildFooClass()
+        {
+            FooProperty8 = null;
+        }
+
         public string FooProperty8 { get; set; }
     }
 

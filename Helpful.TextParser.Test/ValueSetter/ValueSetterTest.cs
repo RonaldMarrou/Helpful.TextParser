@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using NUnit.Framework;
 using Shouldly;
@@ -9,7 +10,6 @@ namespace Helpful.TextParser.Test.ValueSetter
     {
         [Test]
         [TestCase("NullableDateTime", null, true, null)]
-        [TestCase("NullableDateTime", "2017-31-32", false, null)]
         [TestCase("Boolean", "True", true, true)]
         [TestCase("Byte", "254", true, 254)]
         [TestCase("SByte", "120", true, 120)]
@@ -46,6 +46,37 @@ namespace Helpful.TextParser.Test.ValueSetter
         }
 
         [Test]
+        public void Set_SetValueToDateTime_ValueIsSet()
+        {
+            var dummy = new DummyWithAllProperties();
+
+            var propertyInfo = typeof(DummyWithAllProperties).GetProperty("DateTime", BindingFlags.Public | BindingFlags.Instance);
+
+            var sut = new Impl.ValueSetter();
+
+            sut.Set(propertyInfo, "2017-12-11", dummy).ShouldBe(true);
+
+            propertyInfo.GetValue(dummy).ShouldBe(new DateTime(2017, 12, 11));
+        }
+
+        [Test]
+        public void Set_SetValueTNullableoDateTime_ValueIsSet()
+        {
+            var dummy = new DummyWithAllProperties();
+
+            var propertyInfo = typeof(DummyWithAllProperties).GetProperty("NullableDateTime", BindingFlags.Public | BindingFlags.Instance);
+
+            var sut = new Impl.ValueSetter();
+
+            sut.Set(propertyInfo, "2017-12-11", dummy).ShouldBe(true);
+
+            DateTime? dateTime = null;
+            dateTime = new DateTime(2017, 12, 11);
+
+            propertyInfo.GetValue(dummy).ShouldBe(dateTime);
+        }
+
+        [Test]
         public void Set_SetValueDateTime_ValueIsSet()
         {
             var dummy = new DummyWithAllProperties();
@@ -57,6 +88,18 @@ namespace Helpful.TextParser.Test.ValueSetter
             sut.Set(propertyInfo, "2017-04-02", dummy).ShouldBeTrue();
 
             propertyInfo.GetValue(dummy).ShouldBe(new DateTime(2017, 04, 02));
+        }
+
+        [Test]
+        public void Set_SetValueToGenericNotNullable_ValueIsNotSet()
+        {
+            var dummy = new DummyWithAllProperties();
+
+            var propertyInfo = typeof(DummyWithAllProperties).GetProperty("Strings", BindingFlags.Public | BindingFlags.Instance);
+
+            var sut = new Impl.ValueSetter();
+
+            sut.Set(propertyInfo, null, dummy).ShouldBe(false);
         }
     }
 
@@ -95,5 +138,7 @@ namespace Helpful.TextParser.Test.ValueSetter
         public ushort UShort { get; set; }
 
         public string String { get; set; }
+
+        public List<string> Strings { get; set; }
     }
 }

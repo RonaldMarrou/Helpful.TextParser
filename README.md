@@ -1,17 +1,17 @@
 # Helpful.TextParser [![Build status](https://ci.appveyor.com/api/projects/status/el19jp2ayd9ssg3n?svg=true)](https://ci.appveyor.com/project/RonaldMarrou/helpful-textparser) [![Coverage Status](https://coveralls.io/repos/github/RonaldMarrou/Helpful.TextParser/badge.svg?branch=master)](https://coveralls.io/github/RonaldMarrou/Helpful.TextParser?branch=master)
 Helpful.TextParser is a library to convert structured string content into objects.
 
-###Parsing Type
+### Parsing Type
 
 * **Parent/Children Objects**: Occurs when the string content has an structure that works with parent and children objects. Every parent/children line contains a **Tag** that identifies its level.
 * **Just Objects**: Occurs when all lines of the string content only belongs to an specific type.
 
-###Structure Types
+### Structure Types
 
 * **Content Delimited by String**: When each of string content lines are separated by an specific character (e.g. a coma)
 * **Positioned**: When each part of the content is located on an specific position of each of string content lines.
 
-###How to Define the Parser Specification
+### How to Define the Parser Specification
 
 * **Content Delimited By String and Parent/Children Objects**:  Once we specify the Delimitation String for the Parser, you have to Map it to a class, indicating the tag that identifies all data belonging to that level. Also, the position of the tag is required.
 

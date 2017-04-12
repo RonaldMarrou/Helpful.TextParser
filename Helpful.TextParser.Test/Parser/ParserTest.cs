@@ -177,7 +177,7 @@ namespace Helpful.TextParser.Test.Parser
                     properties.Property(x => x.Property2).Position(2).Required();
                     properties.Property(x => x.Property3).Position(3).Required();
 
-                    properties.Property(x => x.Property7).MapTo<DummyFooClass2>("DETAIL").Position(0).Properties(
+                    properties.MapTo(x => x.Property7, "DETAIL").Position(0).Properties(
                         childProperties =>
                         {
                             childProperties.Property(x => x.Property1).Position(1).Required();
@@ -231,14 +231,14 @@ namespace Helpful.TextParser.Test.Parser
                     properties.Property(x => x.Property2).Position(2).Required();
                     properties.Property(x => x.Property3).Position(3).Required();
 
-                    properties.Property(x => x.Property7).MapTo<DummyFooClass2>("DETAIL").Position(0).Properties(
+                    properties.MapTo(x => x.Property7, "DETAIL").Position(0).Properties(
                         childProperties =>
                         {
                             childProperties.Property(x => x.Property1).Position(1).Required();
                             childProperties.Property(x => x.Property2).Position(2).Required();
                             childProperties.Property(x => x.Property3).Position(3).Required();
 
-                            childProperties.Property(x => x.Property7).MapTo<DummyFooClass3>("SUBDETAIL").Position(0).Properties(
+                            childProperties.MapTo(x => x.Property7, "SUBDETAIL").Position(0).Properties(
                                 grandChildProperties =>
                                 {
                                     grandChildProperties.Property(x => x.Property1).Position(1).Required();
@@ -299,14 +299,14 @@ namespace Helpful.TextParser.Test.Parser
                     properties.Property(x => x.Property2).Position(2).Required();
                     properties.Property(x => x.Property3).Position(3).Required();
 
-                    properties.Property(x => x.Property7).MapTo<DummyFooClass2>("DETAIL").Position(0).Properties(
+                    properties.MapTo(x => x.Property7, "DETAIL").Position(0).Properties(
                         childProperties =>
                         {
                             childProperties.Property(x => x.Property1).Position(1).Required();
                             childProperties.Property(x => x.Property2).Position(2).Required();
                             childProperties.Property(x => x.Property3).Position(3).Required();
 
-                            childProperties.Property(x => x.Property7).MapTo<DummyFooClass3>("SUBDETAIL").Position(0).Properties(
+                            childProperties.MapTo(x => x.Property7, "SUBDETAIL").Position(0).Properties(
                                 grandChildProperties =>
                                 {
                                     grandChildProperties.Property(x => x.Property1).Position(1).Required();
@@ -375,7 +375,7 @@ namespace Helpful.TextParser.Test.Parser
                     properties.Property(x => x.Property5).Position(5).Required();
                     properties.Property(x => x.Property6).Position(6).NotRequired();
 
-                    properties.Property(x => x.Property7).MapTo<DummyFooClass2>("DETAIL").Position(0).Properties(
+                    properties.MapTo(x => x.Property7, "DETAIL").Position(0).Properties(
                         childProperties =>
                         {
                             childProperties.Property(x => x.Property1).Position(1).Required();
@@ -385,7 +385,7 @@ namespace Helpful.TextParser.Test.Parser
                             childProperties.Property(x => x.Property5).Position(5).Required();
                             childProperties.Property(x => x.Property6).Position(6).NotRequired();
 
-                            childProperties.Property(x => x.Property7).MapTo<DummyFooClass3>("SUBDETAIL").Position(0).Properties(
+                            childProperties.MapTo(x => x.Property7, "SUBDETAIL").Position(0).Properties(
                                 grandChildProperties =>
                                 {
                                     grandChildProperties.Property(x => x.Property1).Position(1).Required();
@@ -651,7 +651,7 @@ namespace Helpful.TextParser.Test.Parser
                     properties.Property(x => x.Property2).Position(11, 19).Required();
                     properties.Property(x => x.Property3).Position(19, 26).Required();
 
-                    properties.Property(x => x.Property7).MapTo<DummyFooClass2>("DD").Position(0, 2).Properties(
+                    properties.MapTo(x => x.Property7, "DD").Position(0, 2).Properties(
                         childProperties =>
                         {
                             childProperties.Property(x => x.Property1).Position(2, 11).Required();
@@ -705,14 +705,14 @@ namespace Helpful.TextParser.Test.Parser
                     properties.Property(x => x.Property2).Position(11, 19).Required();
                     properties.Property(x => x.Property3).Position(19, 26).Required();
 
-                    properties.Property(x => x.Property7).MapTo<DummyFooClass2>("DD").Position(0, 2).Properties(
+                    properties.MapTo(x => x.Property7, "DD").Position(0, 2).Properties(
                         childProperties =>
                         {
                             childProperties.Property(x => x.Property1).Position(2, 11).Required();
                             childProperties.Property(x => x.Property2).Position(11, 19).Required();
                             childProperties.Property(x => x.Property3).Position(19, 26).Required();
 
-                            childProperties.Property(x => x.Property7).MapTo<DummyFooClass3>("SD").Position(0, 2).Properties(
+                            childProperties.MapTo(x => x.Property7, "SD").Position(0, 2).Properties(
                                 grandChildProperties =>
                                 {
                                     grandChildProperties.Property(x => x.Property1).Position(2, 11).Required();
@@ -773,14 +773,14 @@ namespace Helpful.TextParser.Test.Parser
                     properties.Property(x => x.Property2).Position(11, 19).Required();
                     properties.Property(x => x.Property3).Position(19, 26).Required();
 
-                    properties.Property(x => x.Property7).MapTo<DummyFooClass2>("DD").Position(0, 2).Properties(
+                    properties.MapTo(x => x.Property7, "DD").Position(0, 2).Properties(
                         childProperties =>
                         {
                             childProperties.Property(x => x.Property1).Position(2, 11).Required();
                             childProperties.Property(x => x.Property2).Position(11, 19).Required();
                             childProperties.Property(x => x.Property3).Position(19, 26).Required();
 
-                            childProperties.Property(x => x.Property7).MapTo<DummyFooClass3>("SD").Position(0, 2).Properties(
+                            childProperties.MapTo(x => x.Property7, "SD").Position(0, 2).Properties(
                                 grandChildProperties =>
                                 {
                                     grandChildProperties.Property(x => x.Property1).Position(2, 11).Required();
@@ -844,7 +844,7 @@ namespace Helpful.TextParser.Test.Parser
                     properties.Property(x => x.Property5).Position(31, 37).Required();
                     properties.Property(x => x.Property6).Position(37, 39).NotRequired();
 
-                    properties.Property(x => x.Property7).MapTo<DummyFooClass2>("DD").Position(0, 2).Properties(
+                    properties.MapTo(x => x.Property7, "DD").Position(0, 2).Properties(
                         childProperties =>
                         {
                             childProperties.Property(x => x.Property1).Position(2, 11).Required();
@@ -854,7 +854,7 @@ namespace Helpful.TextParser.Test.Parser
                             childProperties.Property(x => x.Property5).Position(41, 50).Required();
                             childProperties.Property(x => x.Property6).Position(50, 52).NotRequired();
 
-                            childProperties.Property(x => x.Property7).MapTo<DummyFooClass3>("SD").Position(0, 2).Properties(
+                            childProperties.MapTo(x => x.Property7, "SD").Position(0, 2).Properties(
                                 grandChildProperties =>
                                 {
                                     grandChildProperties.Property(x => x.Property1).Position(2, 15).Required();

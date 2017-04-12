@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -7,7 +8,7 @@ using Helpful.TextParser.Model;
 
 namespace Helpful.TextParser.Fluent.Impl
 {
-    public class DelimitedPropertyDescriptor<TClass> : IDelimitedPropertyDescriptor<TClass>, IDelimitedPropertyMapToDescriptor, IDelimitedPropertyRequiredDescriptor where TClass : class
+    public class DelimitedPropertyDescriptor<TClass> : IDelimitedPropertyDescriptor<TClass>, IDelimitedPropertyPositionDescriptor, IDelimitedPropertyRequiredDescriptor where TClass : class
     {
         private readonly Element _parentElement;
 
@@ -16,7 +17,7 @@ namespace Helpful.TextParser.Fluent.Impl
             _parentElement = parentElement;
         }
         
-        public IDelimitedPropertyMapToDescriptor Property<TProperty>(Expression<Func<TClass, TProperty>> property)
+        public IDelimitedPropertyPositionDescriptor Property<TProperty>(Expression<Func<TClass, TProperty>> property)
         {
             var member = property.Body as MemberExpression;
 
@@ -32,22 +33,31 @@ namespace Helpful.TextParser.Fluent.Impl
             return this;
         }
 
-        public IDelimitedPropertyPositionDescriptor<TChildClass> MapTo<TChildClass>(string tag) where TChildClass : class
+        public IDelimitedPropertyMapToPositionDescriptor<TChildClass> MapTo<TChildClass>(Expression<Func<TClass, List<TChildClass>>> child, string tag) where TChildClass : class
         {
             if (string.IsNullOrEmpty(tag))
             {
                 throw new ArgumentNullException($"Tag cannot be empty for {typeof(TChildClass).FullName}");
             }
 
-            var element = _parentElement.Elements.Last();
+            var member = child.Body as MemberExpression;
 
-            element.LineValueExtractorType = LineValueExtractorType.DelimitedByString;
-            element.ElementType = ElementType.Tag;
-            element.Tag = tag;
+            var propInfo = member.Member as PropertyInfo;
+
+            var element = new Element
+            {
+                Name = propInfo.Name,
+                LineValueExtractorType = LineValueExtractorType.DelimitedByString,
+                ElementType = ElementType.Tag,
+                Tag = tag,
+                Type = typeof(TChildClass)
+            };
+
             element.Custom.Add("DelimitationString", _parentElement.Custom["DelimitationString"]);
-            element.Type = typeof(TChildClass);
 
-            return new DelimitedPropertyPositionDescriptor<TChildClass>(element);
+            _parentElement.Elements.Add(element);
+
+            return new DelimitedPropertyMapToPositionDescriptor<TChildClass>(element);
         }
 
         public IDelimitedPropertyRequiredDescriptor Position(int position)

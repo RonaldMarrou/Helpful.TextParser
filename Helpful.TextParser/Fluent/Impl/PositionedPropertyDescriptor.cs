@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -7,7 +8,7 @@ using Helpful.TextParser.Model;
 
 namespace Helpful.TextParser.Fluent.Impl
 {
-    public class PositionedPropertyDescriptor<TClass> : IPositionedPropertyDescriptor<TClass>, IPositionedPropertyMapToDescriptor, IPositionedPropertyRequiredDescriptor where TClass : class
+    public class PositionedPropertyDescriptor<TClass> : IPositionedPropertyDescriptor<TClass>, IPositionedPropertyPositionDescriptor, IPositionedPropertyRequiredDescriptor where TClass : class
     {
         private readonly Element _parentElement;
 
@@ -16,7 +17,7 @@ namespace Helpful.TextParser.Fluent.Impl
             _parentElement = parentElement;
         }
         
-        public IPositionedPropertyMapToDescriptor Property<TProperty>(Expression<Func<TClass, TProperty>> property)
+        public IPositionedPropertyPositionDescriptor Property<TProperty>(Expression<Func<TClass, TProperty>> property)
         {
             var member = property.Body as MemberExpression;
 
@@ -32,21 +33,29 @@ namespace Helpful.TextParser.Fluent.Impl
             return this;
         }
 
-        public IPositionedPropertyPositionDescriptor<TChildClass> MapTo<TChildClass>(string tag) where TChildClass : class
+        public IPositionedPropertyMapToPositionDescriptor<TChildClass> MapTo<TChildClass>(Expression<Func<TClass, List<TChildClass>>> child, string tag) where TChildClass : class
         {
             if (string.IsNullOrEmpty(tag))
             {
                 throw new ArgumentNullException($"Tag cannot be empty for {typeof(TChildClass).FullName}");
             }
 
-            var element = _parentElement.Elements.Last();
+            var member = child.Body as MemberExpression;
 
-            element.LineValueExtractorType = LineValueExtractorType.Positioned;
-            element.ElementType = ElementType.Tag;
-            element.Tag = tag;
-            element.Type = typeof(TChildClass);
+            var propInfo = member.Member as PropertyInfo;
 
-            return new PositionedPropertyPositionDescriptor<TChildClass>(element);
+            var element = new Element
+            {
+                Name = propInfo.Name,
+                LineValueExtractorType = LineValueExtractorType.Positioned,
+                ElementType = ElementType.Tag,
+                Tag = tag,
+                Type = typeof(TChildClass)
+            };
+
+            _parentElement.Elements.Add(element);
+
+            return new PositionedPropertyMapToPositionDescriptor<TChildClass>(element);
         }
 
         public IPositionedPropertyRequiredDescriptor Position(int startPosition, int endPosition)

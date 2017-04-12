@@ -1,7 +1,7 @@
 ﻿namespace Helpful.TextParser.Fluent.Interface
 {
-    public interface IDelimitedPropertyPositionDescriptor<TClass> where TClass : class
+    public interface IDelimitedPropertyPositionDescriptor
     {
-        IDelimitedPropertyPropertiesDescriptor<TClass> Position(int position);
+        IDelimitedPropertyRequiredDescriptor Position(int position);
     }
 }

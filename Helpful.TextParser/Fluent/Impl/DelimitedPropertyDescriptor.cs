@@ -57,7 +57,7 @@ namespace Helpful.TextParser.Fluent.Impl
 
             _parentElement.Elements.Add(element);
 
-            return new DelimitedPropertyMapToMapToPositionDescriptor<TChildClass>(element);
+            return new DelimitedPropertyMapToPositionDescriptor<TChildClass>(element);
         }
 
         public IDelimitedPropertyRequiredDescriptor Position(int position)

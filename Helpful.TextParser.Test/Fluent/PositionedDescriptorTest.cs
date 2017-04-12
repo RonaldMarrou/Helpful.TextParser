@@ -53,7 +53,7 @@ namespace Helpful.TextParser.Test.Fluent
         {
             var sut = new TestPositionedDescriptor(It.IsAny<IParser>());
 
-            Should.Throw<ArgumentNullException>(() => sut.MapTo<DummyFooClass1>("NOTEMPTY").Position(0, 1).Properties(property => property.Property(x => x.Property1).MapTo<DummyFooClass2>(tag)));
+            Should.Throw<ArgumentNullException>(() => sut.MapTo<DummyFooClass1>("NOTEMPTY").Position(0, 1).Properties(property => property.MapTo(x => x.Property7, tag)));
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace Helpful.TextParser.Test.Fluent
         {
             var sut = new TestPositionedDescriptor(It.IsAny<IParser>());
 
-            Should.Throw<ArgumentException>(() => sut.MapTo<DummyFooClass1>("NOTEMPTY").Position(0, 1).Properties(property => property.Property(x => x.Property1).MapTo<DummyFooClass2>("NOTEMPTY").Position(startPosition, endPosition)));
+            Should.Throw<ArgumentException>(() => sut.MapTo<DummyFooClass1>("NOTEMPTY").Position(0, 1).Properties(property => property.MapTo(x => x.Property7, "NOTEMPTY").Position(startPosition, endPosition)));
         }
 
         [Test]
@@ -164,13 +164,13 @@ namespace Helpful.TextParser.Test.Fluent
                 {
                     properties.Property(x => x.Property1).Position(1, 2).Required();
                     properties.Property(x => x.Property2).Position(2, 3).NotRequired();
-                    properties.Property(x => x.Property7).MapTo<DummyFooClass2>("FOODETAILTAG2").Position(0, 1).Properties(
+                    properties.MapTo(x => x.Property7, "FOODETAILTAG2").Position(0, 1).Properties(
                         childProperties =>
                         {
                             childProperties.Property(x => x.Property1).Position(1, 2).Required();
                             childProperties.Property(x => x.Property2).Position(2, 3).NotRequired();
 
-                            childProperties.Property(x => x.Property7).MapTo<DummyFooClass3>("FOOSUBDETAILTAG1").Position(0, 1).Properties(
+                            childProperties.MapTo(x => x.Property7, "FOOSUBDETAILTAG1").Position(0, 1).Properties(
                                 grandChildProperties =>
                                 {
                                     grandChildProperties.Property(x => x.Property1).Position(1, 2).NotRequired();
